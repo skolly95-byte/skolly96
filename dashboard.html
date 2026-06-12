@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — GGZone</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">GGZone</span></a>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="shop.html" class="nav-link">Shop</a>
+      </div>
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-action-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+        <button class="btn btn-ghost btn-sm" data-action="logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-user-info">
+        <img src="" alt="User" class="dash-avatar" data-user-avatar style="background:#1e293b;" />
+        <div class="dash-user-name" data-user-name>Loading...</div>
+        <div class="dash-user-email" data-user-email></div>
+        <div style="margin-top:8px;"><span class="badge badge-digital">Verified</span></div>
+      </div>
+      <nav class="dash-nav">
+        <a href="#" class="dash-nav-item active" onclick="showTab('overview',this)"><i class="fas fa-home"></i> Overview</a>
+        <a href="#" class="dash-nav-item" onclick="showTab('orders',this)"><i class="fas fa-box"></i> My Orders</a>
+        <a href="#" class="dash-nav-item" onclick="showTab('wishlist',this)"><i class="fas fa-heart"></i> Wishlist</a>
+        <a href="#" class="dash-nav-item" onclick="showTab('profile',this)"><i class="fas fa-user-edit"></i> Edit Profile</a>
+        <a href="#" class="dash-nav-item" onclick="showTab('addresses',this)"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+        <a href="#" class="dash-nav-item" onclick="showTab('security',this)"><i class="fas fa-shield-alt"></i> Security</a>
+        <a href="admin.html" id="admin-panel-link" class="dash-nav-item" style="display:none;color:var(--primary);font-weight:600;border:1px solid rgba(59,130,246,0.3);border-radius:var(--radius-sm);margin-top:8px;"><i class="fas fa-crown"></i> Admin Panel</a>
+        <a href="#" class="dash-nav-item" style="color:var(--danger);" data-action="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="dash-main">
+
+      <!-- OVERVIEW TAB -->
+      <div id="tab-overview">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-home" style="color:var(--blue);"></i> My Overview</div>
+          <div class="dash-stats">
+            <div class="dash-stat">
+              <div class="dash-stat-num gradient-text">12</div>
+              <div class="dash-stat-label">Total Orders</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num gradient-text">3</div>
+              <div class="dash-stat-label">Wishlisted</div>
+            </div>
+            <div class="dash-stat">
+              <div class="dash-stat-num gradient-text">$847</div>
+              <div class="dash-stat-label">Total Spent</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-clock" style="color:var(--blue);"></i> Recent Orders</div>
+          <div style="overflow-x:auto;">
+            <table class="orders-table">
+              <thead><tr><th>Order #</th><th>Product</th><th>Date</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody id="recent-orders-body">
+                <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDERS TAB -->
+      <div id="tab-orders" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-box" style="color:var(--blue);"></i> All Orders</div>
+          <div style="overflow-x:auto;">
+            <table class="orders-table">
+              <thead><tr><th>Order #</th><th>Product</th><th>Date</th><th>Amount</th><th>Status</th><th>Invoice</th></tr></thead>
+              <tbody id="all-orders-body">
+                <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- WISHLIST TAB -->
+      <div id="tab-wishlist" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-heart" style="color:#F87171;"></i> My Wishlist</div>
+          <div id="wishlist-grid" class="products-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));"></div>
+        </div>
+      </div>
+
+      <!-- PROFILE TAB -->
+      <div id="tab-profile" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-user-edit" style="color:var(--blue);"></i> Edit Profile</div>
+          <div style="display:flex; align-items:center; gap:20px; margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid var(--border);">
+            <img src="" data-user-avatar class="dash-avatar" style="width:80px;height:80px;background:#1e293b;" />
+            <div>
+              <button class="btn btn-outline btn-sm" onclick="showToast('Photo upload coming soon!','info')"><i class="fas fa-camera"></i> Change Photo</button>
+              <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">JPG, PNG up to 2MB</div>
+            </div>
+          </div>
+          <form style="display:flex; flex-direction:column; gap:18px;" onsubmit="saveProfile(event)">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" data-user-name /></div>
+              <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Hassan" /></div>
+            </div>
+            <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" data-user-email /></div>
+            <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" class="form-input" placeholder="+964 770 000 0000" /></div>
+            <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" class="form-input" /></div>
+            <div class="form-group"><label class="form-label">Country</label>
+              <select class="form-input"><option>Iraq</option><option>United States</option><option>United Kingdom</option><option>Saudi Arabia</option></select>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- ADDRESSES TAB -->
+      <div id="tab-addresses" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title" style="justify-content:space-between;">
+            <span><i class="fas fa-map-marker-alt" style="color:var(--blue);"></i> My Addresses</span>
+            <button class="btn btn-primary btn-sm" onclick="showToast('Address form coming soon!','info')"><i class="fas fa-plus"></i> Add New</button>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div class="glass-card" style="padding:20px; position:relative;">
+              <span style="position:absolute;top:12px;right:12px;" class="badge badge-digital">Default</span>
+              <div style="font-weight:600; margin-bottom:6px;">Home Address</div>
+              <div style="font-size:14px; color:var(--text-muted); line-height:1.7;">
+                Ahmed Hassan<br>Al-Mansour District, Street 14<br>Baghdad, Iraq 10001
+              </div>
+              <div style="display:flex; gap:8px; margin-top:14px;">
+                <button class="btn btn-ghost btn-sm" onclick="showToast('Edit address coming soon!','info')"><i class="fas fa-edit"></i> Edit</button>
+                <button class="btn btn-ghost btn-sm" style="color:var(--danger);" onclick="showToast('Address deleted','info')"><i class="fas fa-trash"></i> Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECURITY TAB -->
+      <div id="tab-security" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-shield-alt" style="color:var(--blue);"></i> Security Settings</div>
+          <form style="display:flex; flex-direction:column; gap:18px; max-width:500px;" onsubmit="changePassword(event)">
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <div style="position:relative;">
+                <div class="input-icon-wrap"><i class="fas fa-lock"></i>
+                  <input type="password" class="form-input" placeholder="Enter current password" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <div style="position:relative;">
+                <div class="input-icon-wrap"><i class="fas fa-lock"></i>
+                  <input type="password" class="form-input" placeholder="Min. 6 characters" required />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm New Password</label>
+              <div class="input-icon-wrap"><i class="fas fa-lock"></i>
+                <input type="password" class="form-input" placeholder="Repeat new password" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-key"></i> Update Password</button>
+          </form>
+          <div style="margin-top:28px; padding-top:24px; border-top:1px solid var(--border);">
+            <h3 style="font-size:16px; font-weight:700; margin-bottom:16px;">Two-Factor Authentication</h3>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:var(--radius);">
+              <div>
+                <div style="font-weight:600; margin-bottom:4px;">Authenticator App</div>
+                <div style="font-size:13px; color:var(--text-muted);">Use an authenticator app for extra security</div>
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="showToast('2FA setup coming soon!','info')">Enable</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="footer" style="margin-top:40px;">
+  <div class="container">
+    <div class="footer-bottom" style="padding:20px 0;">
+      <span>© 2025 GGZone.</span>
+      <span>Designed & Developed by <a href="https://instagram.com/itzz_davidb" target="_blank">David Bashar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/currency.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/wishlist.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+const _ORDERS_API = (() => {
+  const p = parseInt(location.port, 10);
+  return (p === 5500 || p === 5501 || p === 3000)
+    ? 'http://localhost/GG%20Project/admin/api/orders.php'
+    : '../admin/api/orders.php';
+})();
+
+function orderRow(o, showInvoice) {
+  const date   = new Date(o.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+  const status = o.status;
+  const badge  = `<span class="status-badge status-${status}">${status.charAt(0).toUpperCase()+status.slice(1)}</span>`;
+  const action = showInvoice
+    ? `<a href="#" onclick="showToast('Invoice downloaded!','success')" class="btn btn-ghost btn-sm"><i class="fas fa-download"></i></a>`
+    : `<span class="btn btn-ghost btn-sm" style="font-size:12px;">Track</span>`;
+  return `<tr>
+    <td style="font-family:var(--font-gaming);">${o.order_number}</td>
+    <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${o.products || '—'}</td>
+    <td style="color:var(--text-muted);">${date}</td>
+    <td style="font-weight:600;">$${parseFloat(o.total).toFixed(2)}</td>
+    <td>${badge}</td>
+    <td>${action}</td>
+  </tr>`;
+}
+
+async function loadUserOrders() {
+  const user = Auth.getUser();
+  if (!user) return;
+  try {
+    const res  = await fetch(_ORDERS_API + '?email=' + encodeURIComponent(user.email));
+    const data = await res.json();
+    if (!data.success) return;
+    const orders = data.orders || [];
+
+    // Recent (overview tab — last 5)
+    const recentEl = document.getElementById('recent-orders-body');
+    if (recentEl) {
+      recentEl.innerHTML = orders.length
+        ? orders.slice(0, 5).map(o => orderRow(o, false)).join('')
+        : '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);">No orders yet</td></tr>';
+    }
+
+    // All orders tab
+    const allEl = document.getElementById('all-orders-body');
+    if (allEl) {
+      allEl.innerHTML = orders.length
+        ? orders.map(o => orderRow(o, true)).join('')
+        : '<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-muted);">No orders yet</td></tr>';
+    }
+  } catch { /* API offline */ }
+}
+
+function showTab(name, el) {
+  document.querySelectorAll('[id^="tab-"]').forEach(t => t.style.display = 'none');
+  document.getElementById('tab-' + name).style.display = '';
+  document.querySelectorAll('.dash-nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (name === 'wishlist') loadWishlist();
+}
+
+async function loadWishlist() {
+  const grid = document.getElementById('wishlist-grid');
+  if (!grid) return;
+  const ids = typeof Wishlist !== 'undefined' ? Wishlist.getAll() : [];
+  if (!ids.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 0;">
+      <i class="fas fa-heart-broken" style="font-size:48px;color:var(--text-muted);display:block;margin-bottom:12px;"></i>
+      <h3 style="color:var(--text-muted);margin-bottom:16px;">Your wishlist is empty</h3>
+      <a href="shop.html" class="btn btn-primary"><i class="fas fa-store"></i> Browse Products</a>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:32px 0;">
+    <i class="fas fa-spinner fa-spin" style="font-size:28px;color:var(--blue);"></i>
+  </div>`;
+  const port = parseInt(location.port, 10);
+  const apiBase = (port === 5500 || port === 5501 || port === 3000)
+    ? 'http://localhost/GG%20Project/admin/api/products.php'
+    : '../admin/api/products.php';
+  try {
+    const results = await Promise.all(
+      ids.map(id => fetch(`${apiBase}?id=${id}`).then(r => r.json()).catch(() => null))
+    );
+    const products = results.filter(r => r && r.success).map(r => r.product);
+    const fmt = p => typeof Currency !== 'undefined' ? Currency.format(p) : '$' + parseFloat(p).toFixed(2);
+    if (!products.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 0;">
+        <p style="color:var(--text-muted);">Could not load wishlist items.</p></div>`;
+      return;
+    }
+    grid.innerHTML = products.map(p => {
+      const displayPrice = p.sale_price && parseFloat(p.sale_price) > 0 ? parseFloat(p.sale_price) : parseFloat(p.price);
+      const img = p.image_url || 'https://via.placeholder.com/400x300/1e293b/3B82F6?text=GGZone';
+      const titleSafe = p.title.replace(/"/g, '&quot;');
+      const platformSafe = (p.platform || '').replace(/"/g, '&quot;');
+      return `
+      <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'" style="cursor:pointer;">
+        <div class="product-img-wrap">
+          <img src="${img}" alt="${titleSafe}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/1e293b/3B82F6?text=GGZone'" />
+        </div>
+        <div class="product-info">
+          <div class="product-platform">${p.platform || p.category_name || ''}</div>
+          <div class="product-title">${p.title}</div>
+          <div class="product-price"><span class="price-current" data-usd="${displayPrice}">${fmt(displayPrice)}</span></div>
+          <div class="product-footer">
+            <button class="btn-cart" data-product="${p.id}" data-title="${titleSafe}" data-price="${displayPrice}" data-image="${img}" data-platform="${platformSafe}" onclick="event.stopPropagation();">
+              <i class="fas fa-shopping-cart"></i> Add to Cart
+            </button>
+            <button class="btn-wish wishlisted" data-remove-id="${p.id}" onclick="event.stopPropagation();">
+              <i class="fas fa-heart" style="color:#F87171;"></i>
+            </button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.btn-cart[data-product]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        Cart.add({ id: parseInt(btn.dataset.product), title: btn.dataset.title, price: parseFloat(btn.dataset.price), image: btn.dataset.image, platform: btn.dataset.platform });
+        btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+        btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+        btn.disabled = true;
+        setTimeout(() => { btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart'; btn.style.background = ''; btn.disabled = false; }, 1500);
+      });
+    });
+    grid.querySelectorAll('[data-remove-id]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        Wishlist.toggle(parseInt(btn.dataset.removeId));
+        loadWishlist();
+      });
+    });
+  } catch {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:48px 0;">
+      <p style="color:var(--text-muted);">Could not load wishlist items.</p></div>`;
+  }
+}
+
+// Show Admin Panel link only for admin users
+const _u = Auth.getUser();
+if (_u && _u.role === 'admin') {
+  document.getElementById('admin-panel-link').style.display = 'flex';
+}
+
+loadUserOrders();
+function saveProfile(e) { e.preventDefault(); showToast('Profile saved!', 'success'); }
+function changePassword(e) { e.preventDefault(); showToast('Password updated!', 'success'); }
+function filterOrders(status, btn) {
+  document.querySelectorAll('#tab-orders .btn').forEach(b => { b.className = 'btn btn-ghost btn-sm'; });
+  btn.className = 'btn btn-primary btn-sm';
+}
+</script>
+</body>
+</html>

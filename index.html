@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GGZone — Everything Gaming. One Zone.</title>
+  <meta name="description" content="Buy Consoles, Gift Cards, Gaming Subscriptions, and Digital Products Instantly at GGZone." />
+  <meta name="theme-color" content="#0F172A" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%233B82F6'/><text y='72' x='12' font-size='68' font-family='Arial' fill='white'>🎮</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+
+<!-- ── TOAST CONTAINER ──────────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ── NAVBAR ───────────────────────────────────────────────── -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">🎮</span>
+        <span class="logo-text">GGZone</span>
+      </a>
+
+      <div class="nav-search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search products..." id="nav-search" />
+      </div>
+
+      <div class="nav-links">
+        <a href="index.html" class="nav-link active" data-i18n="nav.home">Home</a>
+
+        <div class="nav-dropdown">
+          <a href="pages/shop.html" class="nav-link nav-dropdown-toggle">
+            <span data-i18n="nav.shop">Shop</span> <i class="fas fa-chevron-down" style="font-size:10px; margin-left:4px;"></i>
+          </a>
+          <div class="nav-dropdown-menu">
+            <a href="pages/shop.html?cat=consoles"     class="nav-dropdown-item"><i class="fas fa-gamepad"></i> <span data-i18n="cat.consoles">Consoles</span></a>
+            <a href="pages/shop.html?cat=gift-cards"   class="nav-dropdown-item"><i class="fas fa-gift"></i> <span data-i18n="cat.giftCards">Gift Cards</span></a>
+            <a href="pages/shop.html?cat=subscriptions" class="nav-dropdown-item"><i class="fas fa-star"></i> <span data-i18n="cat.subscriptions">Subscriptions</span></a>
+            <a href="pages/shop.html?cat=accessories"  class="nav-dropdown-item"><i class="fas fa-headset"></i> <span data-i18n="cat.accessories">Accessories</span></a>
+            <a href="pages/shop.html?cat=pc"           class="nav-dropdown-item"><i class="fas fa-desktop"></i> <span data-i18n="cat.pc">PC Gaming</span></a>
+          </div>
+        </div>
+
+        <a href="pages/shop.html?cat=gift-cards"    class="nav-link" data-i18n="nav.giftCards">Gift Cards</a>
+        <a href="pages/shop.html?cat=subscriptions" class="nav-link" data-i18n="nav.subscriptions">Subscriptions</a>
+        <a href="#features"                          class="nav-link" data-i18n="nav.whyUs">Why Us</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="pages/login.html" class="btn btn-outline btn-sm nav-login-link" data-i18n="nav.signIn">Sign In</a>
+        <div class="nav-user-menu" style="display:none; align-items:center; gap:8px;">
+          <a href="pages/dashboard.html" class="nav-action-btn" title="Dashboard">
+            <i class="fas fa-user"></i>
+          </a>
+        </div>
+        <div class="locale-picker">
+          <button class="locale-btn" onclick="LocalePicker.toggle(event)">
+            <i class="fas fa-globe"></i>
+            <span class="locale-label">EN · $ USD</span>
+            <i class="fas fa-chevron-down locale-chevron"></i>
+          </button>
+          <div class="locale-dropdown">
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.language">Language</div>
+              <div class="locale-options">
+                <button class="locale-option" data-lang="en" onclick="LocalePicker.setLang('en')"><span class="locale-flag">🇺🇸</span>English</button>
+                <button class="locale-option" data-lang="ar" onclick="LocalePicker.setLang('ar')"><span class="locale-flag">🇮🇶</span>العربية</button>
+              </div>
+            </div>
+            <div class="locale-divider"></div>
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.currency">Currency</div>
+              <div class="locale-options">
+                <button class="locale-option" data-currency="USD" onclick="LocalePicker.setCurrency('USD')"><span class="locale-symbol">$</span>USD — Dollar</button>
+                <button class="locale-option" data-currency="IQD" onclick="LocalePicker.setCurrency('IQD')"><span class="locale-symbol">IQD</span>Iraqi Dinar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="pages/cart.html" class="nav-action-btn" data-i18n-title="nav.cart" title="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobile-nav">
+  <form class="mobile-search-form" onsubmit="event.preventDefault(); const q=this.querySelector('input').value.trim(); if(q) window.location.href='pages/shop.html?search='+encodeURIComponent(q);">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search products..." data-i18n-ph="nav.searchPh" />
+  </form>
+  <a href="index.html" data-i18n="nav.home">Home</a>
+  <a href="pages/shop.html" data-i18n="nav.shop">Shop</a>
+  <a href="pages/shop.html?cat=gift-cards" data-i18n="nav.giftCards">Gift Cards</a>
+  <a href="pages/shop.html?cat=subscriptions" data-i18n="nav.subscriptions">Subscriptions</a>
+  <a href="pages/shop.html?cat=consoles" data-i18n="cat.consoles">Consoles</a>
+  <a href="pages/shop.html?cat=accessories" data-i18n="cat.accessories">Accessories</a>
+  <a href="pages/login.html" class="nav-login-link" data-i18n="nav.signIn">Sign In</a>
+  <a href="pages/dashboard.html" style="display:none;" class="nav-user-menu" data-i18n="nav.dashboard">Dashboard</a>
+  <a href="pages/cart.html" data-i18n="nav.cart">Cart</a>
+</div>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section class="hero gaming-bg">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-bolt"></i>
+          <span data-i18n="hero.badge">Instant Digital Delivery</span>
+        </div>
+        <h1 class="hero-title" data-i18n-html="hero.title">
+          Everything Gaming.<br>
+          <span class="gradient-text">One Zone.</span>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Buy Consoles, Gift Cards, Gaming Subscriptions and Digital Products Instantly. Secure payments, instant delivery, 24/7 support.
+        </p>
+        <div class="hero-actions">
+          <a href="pages/shop.html" class="btn btn-primary btn-lg">
+            <i class="fas fa-store"></i> <span data-i18n="hero.shopNow">Shop Now</span>
+          </a>
+          <a href="#categories" class="btn btn-outline btn-lg">
+            <i class="fas fa-th"></i> <span data-i18n="hero.exploreCategories">Explore Categories</span>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <span class="hero-stat-num" data-counter="15000" data-suffix="+">15,000+</span>
+            <span class="hero-stat-label" data-i18n="hero.statGamers">Happy Gamers</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-num" data-counter="500" data-suffix="+">500+</span>
+            <span class="hero-stat-label" data-i18n="hero.statProducts">Products</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="hero-stat-num" data-counter="50" data-suffix="K+">50K+</span>
+            <span class="hero-stat-label" data-i18n="hero.statOrders">Orders Delivered</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-console-wrap">
+          <div class="hero-glow"></div>
+          <img
+            src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=600&auto=format&fit=crop&q=80"
+            alt="PlayStation 5"
+            class="hero-console-img"
+          />
+          <div class="hero-floating-cards">
+            <div class="hero-float-card card-1">
+              <span>⚡</span>
+              <div>
+                <div style="font-weight:700; font-size:14px;" data-i18n="hero.cardInstantTitle">Instant Delivery</div>
+                <div style="font-size:12px; color:var(--text-muted);" data-i18n="hero.cardInstantSub">Get your code in seconds</div>
+              </div>
+            </div>
+            <div class="hero-float-card card-2">
+              <span>🛡️</span>
+              <div>
+                <div style="font-weight:700; font-size:14px;" data-i18n="hero.cardSecureTitle">Secure & Trusted</div>
+                <div style="font-size:12px; color:var(--text-muted);" data-i18n="hero.cardSecureSub">SSL encrypted payments</div>
+              </div>
+            </div>
+            <div class="hero-float-card card-3">
+              <span>🎮</span>
+              <div>
+                <div style="font-weight:700; font-size:14px;" data-i18n="hero.cardProductsTitle">500+ Products</div>
+                <div style="font-size:12px; color:var(--text-muted);" data-i18n="hero.cardProductsSub">All platforms covered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CATEGORIES ────────────────────────────────────────────── -->
+<section class="section" id="categories">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label" data-i18n="label.browse">Browse</span>
+      <h2 class="section-title" data-i18n-html="heading.shopByCategory">Shop by <span class="gradient-text">Category</span></h2>
+      <p class="section-subtitle" style="margin: 0 auto;" data-i18n="sub.categoriesDesc">Find everything you need across all major gaming platforms and product types.</p>
+    </div>
+
+    <div class="categories-grid reveal">
+      <a href="pages/shop.html?cat=playstation" class="category-card">
+        <div class="category-icon icon-ps"><i class="fab fa-playstation"></i></div>
+        <span class="category-name" data-i18n="cat.playstation">PlayStation</span>
+        <span class="category-count" data-i18n-count="52">52 products</span>
+      </a>
+      <a href="pages/shop.html?cat=xbox" class="category-card">
+        <div class="category-icon icon-xbox"><i class="fab fa-xbox"></i></div>
+        <span class="category-name" data-i18n="cat.xbox">Xbox</span>
+        <span class="category-count" data-i18n-count="48">48 products</span>
+      </a>
+      <a href="pages/shop.html?cat=nintendo" class="category-card">
+        <div class="category-icon icon-nintendo">🎮</div>
+        <span class="category-name" data-i18n="cat.nintendo">Nintendo</span>
+        <span class="category-count" data-i18n-count="31">31 products</span>
+      </a>
+      <a href="pages/shop.html?cat=psp" class="category-card">
+        <div class="category-icon icon-psp">🕹️</div>
+        <span class="category-name" data-i18n="cat.psp">PSP</span>
+        <span class="category-count" data-i18n-count="18">18 products</span>
+      </a>
+      <a href="pages/shop.html?cat=steam" class="category-card">
+        <div class="category-icon icon-steam"><i class="fab fa-steam"></i></div>
+        <span class="category-name" data-i18n="cat.steam">Steam</span>
+        <span class="category-count" data-i18n-count="45">45 products</span>
+      </a>
+      <a href="pages/shop.html?cat=gift-cards" class="category-card">
+        <div class="category-icon icon-gift"><i class="fas fa-gift"></i></div>
+        <span class="category-name" data-i18n="cat.giftCards">Gift Cards</span>
+        <span class="category-count" data-i18n-count="60">60 products</span>
+      </a>
+      <a href="pages/shop.html?cat=subscriptions" class="category-card">
+        <div class="category-icon icon-sub"><i class="fas fa-star"></i></div>
+        <span class="category-name" data-i18n="cat.subscriptions">Subscriptions</span>
+        <span class="category-count" data-i18n-count="28">28 products</span>
+      </a>
+      <a href="pages/shop.html?cat=accessories" class="category-card">
+        <div class="category-icon icon-acc"><i class="fas fa-headset"></i></div>
+        <span class="category-name" data-i18n="cat.accessories">Accessories</span>
+        <span class="category-count" data-i18n-count="84">84 products</span>
+      </a>
+      <a href="pages/shop.html?cat=pc" class="category-card">
+        <div class="category-icon icon-pc"><i class="fas fa-desktop"></i></div>
+        <span class="category-name" data-i18n="cat.pc">PC Gaming</span>
+        <span class="category-count" data-i18n-count="56">56 products</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── BEST SELLERS ──────────────────────────────────────────── -->
+<section class="section" style="background: rgba(255,255,255,0.01);">
+  <div class="container">
+    <div class="section-header flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <span class="section-label" data-i18n="label.hotNow">Hot Right Now</span>
+        <h2 class="section-title" data-i18n-html="heading.bestSellers">Best <span class="gradient-text">Sellers</span></h2>
+      </div>
+      <a href="pages/shop.html" class="btn btn-outline"><span data-i18n="btn.viewAll">View All</span> <i class="fas fa-arrow-right"></i></a>
+    </div>
+
+    <div class="products-grid reveal" id="home-products-grid">
+      <div style="grid-column:1/-1;text-align:center;padding:40px 0;">
+        <i class="fas fa-spinner fa-spin" style="font-size:28px;color:var(--blue);"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBSCRIPTIONS ─────────────────────────────────────────── -->
+<section class="section gaming-bg">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label" data-i18n="label.monthlyPlans">Monthly Plans</span>
+      <h2 class="section-title" data-i18n-html="heading.subscriptions">Gaming <span class="gradient-text">Subscriptions</span></h2>
+      <p class="section-subtitle" style="margin: 0 auto;" data-i18n="sub.subsDesc">Access hundreds of games for a low monthly price. All major platforms.</p>
+    </div>
+
+    <div class="subs-grid reveal">
+      <div class="sub-card xbox">
+        <div class="sub-platform">
+          <span class="sub-platform-icon"><i class="fab fa-xbox" style="color:#34D399"></i></span>
+          <span class="sub-platform-name">Xbox</span>
+        </div>
+        <div class="sub-title">Game Pass Ultimate</div>
+        <div class="sub-duration" data-i18n="sub.1month">1 Month</div>
+        <div class="sub-features">
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.hundredGames">100+ Game Library</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.xboxPC">Xbox & PC Games</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.eaPlay">EA Play Included</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.xboxLive">Xbox Live Gold</span></div>
+        </div>
+        <div class="sub-price">
+          <span class="sub-price-num gradient-text" data-usd="14.99">$14.99</span>
+          <span class="sub-price-period" data-i18n="period.month">/ month</span>
+        </div>
+        <button class="btn btn-primary w-full btn-cart"
+          data-product="10" data-title="Xbox Game Pass Ultimate 1M" data-price="14.99"
+          data-image="https://images.unsplash.com/photo-1621259182978-fbf93132d53d?w=400" data-platform="Xbox">
+          <i class="fas fa-shopping-cart"></i> <span data-i18n="btn.getNow">Get Now</span>
+        </button>
+      </div>
+
+      <div class="sub-card ps">
+        <div class="sub-platform">
+          <span class="sub-platform-icon"><i class="fab fa-playstation" style="color:#60A5FA"></i></span>
+          <span class="sub-platform-name">PlayStation</span>
+        </div>
+        <div class="sub-title">PlayStation Plus Premium</div>
+        <div class="sub-duration" data-i18n="sub.3months">3 Months</div>
+        <div class="sub-features">
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.sevenHundredGames">700+ Game Catalog</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.cloudStream">Cloud Streaming</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.psClassics">PS1/PS2/PS3 Classics</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.online">Online Multiplayer</span></div>
+        </div>
+        <div class="sub-price">
+          <span class="sub-price-num gradient-text" data-usd="39.99">$39.99</span>
+          <span class="sub-price-period" data-i18n="period.3months">/ 3 months</span>
+        </div>
+        <button class="btn btn-primary w-full btn-cart"
+          data-product="11" data-title="PS Plus Premium 3M" data-price="39.99"
+          data-image="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400" data-platform="PlayStation">
+          <i class="fas fa-shopping-cart"></i> <span data-i18n="btn.getNow">Get Now</span>
+        </button>
+      </div>
+
+      <div class="sub-card nintendo">
+        <div class="sub-platform">
+          <span class="sub-platform-icon">🎮</span>
+          <span class="sub-platform-name">Nintendo</span>
+        </div>
+        <div class="sub-title">Switch Online + Expansion</div>
+        <div class="sub-duration" data-i18n="sub.12months">12 Months</div>
+        <div class="sub-features">
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.nesSnes">NES, SNES, N64 Games</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.online">Online Multiplayer</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.gameBoy">Game Boy Catalog</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.animalCross">Animal Crossing DLC</span></div>
+        </div>
+        <div class="sub-price">
+          <span class="sub-price-num gradient-text" data-usd="49.99">$49.99</span>
+          <span class="sub-price-period" data-i18n="period.year">/ year</span>
+        </div>
+        <button class="btn btn-primary w-full btn-cart"
+          data-product="12" data-title="Nintendo Switch Online+Expansion 12M" data-price="49.99"
+          data-image="https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400" data-platform="Nintendo">
+          <i class="fas fa-shopping-cart"></i> <span data-i18n="btn.getNow">Get Now</span>
+        </button>
+      </div>
+
+      <div class="sub-card steam">
+        <div class="sub-platform">
+          <span class="sub-platform-icon"><i class="fab fa-steam" style="color:#A78BFA"></i></span>
+          <span class="sub-platform-name">Steam</span>
+        </div>
+        <div class="sub-title">Steam Wallet Codes</div>
+        <div class="sub-duration" data-i18n="sub.flexible">Flexible Amounts</div>
+        <div class="sub-features">
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.amounts">$10 / $20 / $50 / $100</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.fiftyK">50,000+ Games</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.codeDelivery">Instant Code Delivery</span></div>
+          <div class="sub-feature"><i class="fas fa-check"></i> <span data-i18n="f.worldwide">Worldwide Compatible</span></div>
+        </div>
+        <div class="sub-price">
+          <span class="sub-price-num gradient-text">$10+</span>
+          <span class="sub-price-period" data-i18n="period.flexible">flexible</span>
+        </div>
+        <a href="pages/shop.html?cat=steam" class="btn btn-primary w-full">
+          <i class="fas fa-store"></i> <span data-i18n="btn.browseSteam">Browse Steam</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY CHOOSE US ──────────────────────────────────────────── -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label" data-i18n="label.whyGGZone">Why GGZone</span>
+      <h2 class="section-title" data-i18n-html="heading.whyTitle">Your Gaming Store, <span class="gradient-text">Perfected</span></h2>
+    </div>
+
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title" data-i18n="fi.delTitle">Instant Delivery</div>
+        <div class="feature-desc" data-i18n="fi.delDesc">Get your digital codes and keys delivered instantly to your email after payment.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <div class="feature-title" data-i18n="fi.payTitle">Secure Payments</div>
+        <div class="feature-desc" data-i18n="fi.payDesc">SSL encrypted checkout with Stripe & PayPal. Your payment info is always safe.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title" data-i18n="fi.trustTitle">Trusted Store</div>
+        <div class="feature-desc" data-i18n="fi.trustDesc">Over 15,000 happy customers. Verified products from official sources only.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <div class="feature-title" data-i18n="fi.suppTitle">24/7 Support</div>
+        <div class="feature-desc" data-i18n="fi.suppDesc">Our gaming experts are available around the clock to help with any issue.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <div class="feature-title" data-i18n="fi.priceTitle">Best Prices</div>
+        <div class="feature-desc" data-i18n="fi.priceDesc">We price-match competitors. Get the best deals on all gaming products.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚀</div>
+        <div class="feature-title" data-i18n="fi.checkTitle">Fast Checkout</div>
+        <div class="feature-desc" data-i18n="fi.checkDesc">One-click checkout for returning customers. No unnecessary steps or delays.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────────────── -->
+<section class="section" style="background: rgba(255,255,255,0.01);">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-label" data-i18n="label.reviews">Reviews</span>
+      <h2 class="section-title" data-i18n-html="heading.gamers">What Gamers <span class="gradient-text">Say</span></h2>
+    </div>
+
+    <div class="testimonials-slider">
+      <div class="testimonials-track">
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img src="https://ui-avatars.com/api/?name=Ahmed+K&background=3B82F6&color=fff&bold=true" alt="Ahmed" class="testimonial-avatar" />
+            <div>
+              <div class="testimonial-name">Ahmed K.</div>
+              <div class="testimonial-handle">@ahmed_gamer</div>
+            </div>
+            <div class="stars" style="margin-left:auto;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+          </div>
+          <p class="testimonial-text" data-i18n="t.ahmed">"Got my PS Plus code in seconds. The website is super clean and checkout was a breeze. Definitely my go-to gaming store from now on!"</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img src="https://ui-avatars.com/api/?name=Sara+M&background=8B5CF6&color=fff&bold=true" alt="Sara" class="testimonial-avatar" />
+            <div>
+              <div class="testimonial-name">Sara M.</div>
+              <div class="testimonial-handle">@saragames</div>
+            </div>
+            <div class="stars" style="margin-left:auto;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+          </div>
+          <p class="testimonial-text" data-i18n="t.sara">"Best prices I've found for Xbox Game Pass. The discount codes actually work and the support team responded within minutes. 10/10!"</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img src="https://ui-avatars.com/api/?name=Omar+J&background=10B981&color=fff&bold=true" alt="Omar" class="testimonial-avatar" />
+            <div>
+              <div class="testimonial-name">Omar J.</div>
+              <div class="testimonial-handle">@omar_plays</div>
+            </div>
+            <div class="stars" style="margin-left:auto;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star">★</span>
+            </div>
+          </div>
+          <p class="testimonial-text" data-i18n="t.omar">"Ordered a Nintendo Switch OLED. Shipped fast, arrived in perfect condition. The whole experience from browsing to delivery was excellent."</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img src="https://ui-avatars.com/api/?name=Lina+R&background=F59E0B&color=fff&bold=true" alt="Lina" class="testimonial-avatar" />
+            <div>
+              <div class="testimonial-name">Lina R.</div>
+              <div class="testimonial-handle">@lina_rpg</div>
+            </div>
+            <div class="stars" style="margin-left:auto;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+          </div>
+          <p class="testimonial-text" data-i18n="t.lina">"The website design is gorgeous — so easy to navigate. Found my Valorant points in seconds and redeemed them without any issues. Love GGZone!"</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="testimonial-header">
+            <img src="https://ui-avatars.com/api/?name=Ziad+T&background=EF4444&color=fff&bold=true" alt="Ziad" class="testimonial-avatar" />
+            <div>
+              <div class="testimonial-name">Ziad T.</div>
+              <div class="testimonial-handle">@ziad_fps</div>
+            </div>
+            <div class="stars" style="margin-left:auto;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+          </div>
+          <p class="testimonial-text" data-i18n="t.ziad">"Used the GGZONE10 coupon and saved money on my Fortnite V-Bucks. Instant delivery and the store feels premium. Will be back for sure!"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-controls">
+      <button class="slider-btn slider-prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+      <div class="slider-dots">
+        <div class="slider-dot active"></div>
+        <div class="slider-dot"></div>
+        <div class="slider-dot"></div>
+      </div>
+      <button class="slider-btn slider-next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ─────────────────────────────────────────────── -->
+<section class="section-sm">
+  <div class="container">
+    <div class="newsletter-section reveal">
+      <span class="section-label" data-i18n="label.stayUpdated">Stay Updated</span>
+      <h2 class="newsletter-title" data-i18n-html="heading.exclusiveDeals">Get <span class="gradient-text">Exclusive Deals</span> First</h2>
+      <p class="newsletter-sub" data-i18n="sub.subscribeDesc">Subscribe and be the first to know about flash sales, new arrivals, and promo codes.</p>
+      <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+        <input type="email" class="form-input" placeholder="Enter your email address..." data-i18n-ph="newsletter.ph" required />
+        <button type="submit" class="btn btn-primary"><span data-i18n="btn.subscribe">Subscribe</span> <i class="fas fa-arrow-right"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-icon">🎮</span>
+          <span class="logo-text">GGZone</span>
+        </a>
+        <p class="footer-desc" data-i18n="footer.desc">Everything Gaming. One Zone. Your trusted destination for consoles, digital codes, subscriptions, and gaming accessories.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/9647700789325" class="social-btn" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-btn" title="Discord"><i class="fab fa-discord"></i></a>
+          <a href="#" class="social-btn" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="footer.catTitle">Categories</div>
+        <div class="footer-links">
+          <a href="pages/shop.html?cat=consoles">🎮 <span data-i18n="cat.consoles">Consoles</span></a>
+          <a href="pages/shop.html?cat=gift-cards">🎁 <span data-i18n="cat.giftCards">Gift Cards</span></a>
+          <a href="pages/shop.html?cat=subscriptions">⭐ <span data-i18n="cat.subscriptions">Subscriptions</span></a>
+          <a href="pages/shop.html?cat=accessories">🎧 <span data-i18n="cat.accessories">Accessories</span></a>
+          <a href="pages/shop.html?cat=steam">🖥️ <span data-i18n="cat.steam">Steam</span></a>
+          <a href="pages/shop.html?cat=pc">🖱️ <span data-i18n="cat.pc">PC Gaming</span></a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="footer.supportTitle">Support</div>
+        <div class="footer-links">
+          <a href="#" data-i18n="footer.helpCenter">Help Center</a>
+          <a href="#" data-i18n="footer.contactUs">Contact Us</a>
+          <a href="#" data-i18n="footer.trackOrder">Track Order</a>
+          <a href="#" data-i18n="footer.refund">Refund Policy</a>
+          <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="#" data-i18n="footer.terms">Terms of Service</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-col-title" data-i18n="footer.contactTitle">Contact</div>
+        <div class="footer-links">
+          <a href="mailto:support@ggzone.com"><i class="fas fa-envelope"></i> support@ggzone.com</a>
+          <a href="https://wa.me/9647700789325" target="_blank"><i class="fab fa-whatsapp"></i> +964 770 078 9325</a>
+          <a href="https://instagram.com/itzz_davidb" target="_blank"><i class="fab fa-instagram"></i> @itzz_davidb</a>
+        </div>
+        <div style="margin-top:20px;">
+          <div class="footer-col-title" data-i18n="footer.weAccept">We Accept</div>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <span style="background:rgba(255,255,255,0.08); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; color:var(--text-muted);">Visa</span>
+            <span style="background:rgba(255,255,255,0.08); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; color:var(--text-muted);">Mastercard</span>
+            <span style="background:rgba(255,255,255,0.08); border:1px solid var(--border); border-radius:6px; padding:6px 10px; font-size:12px; color:var(--text-muted);">PayPal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="footer-bottom">
+      <span data-i18n="footer.copyright">© 2025 GGZone. All rights reserved.</span>
+      <span><span data-i18n="footer.designedBy">Designed & Developed by</span> <a href="https://instagram.com/itzz_davidb" target="_blank">David Bashar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/i18n.js"></script>
+<script src="js/currency.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/wishlist.js"></script>
+<script src="js/search.js"></script>
+<script src="js/auth.js"></script>
+<script>
+(async function loadHomepageProducts() {
+  const grid = document.getElementById('home-products-grid');
+  if (!grid) return;
+
+  // Relative URL works when served by XAMPP. Live Server (port 5500/5501) can't
+  // run PHP, so we point directly at XAMPP on port 80 using the symlink name.
+  const port = parseInt(location.port, 10);
+  const apiUrl = (port === 5500 || port === 5501 || port === 3000)
+    ? 'http://localhost/GGProject/admin/api/products.php?limit=8'
+    : 'admin/api/products.php?limit=8';
+
+  let data;
+  try {
+    const res = await fetch(apiUrl);
+    const text = await res.text();
+    try {
+      data = JSON.parse(text);
+    } catch {
+      console.error('GGZone API: invalid JSON from', apiUrl, '\nResponse:', text.slice(0, 300));
+      grid.innerHTML = '';
+      return;
+    }
+  } catch (err) {
+    console.error('GGZone API: fetch failed —', err.message, '\nURL tried:', apiUrl);
+    grid.innerHTML = '';
+    return;
+  }
+
+  if (!data.success) {
+    console.error('GGZone API error:', data.error);
+    grid.innerHTML = '';
+    return;
+  }
+
+  if (!data.products || !data.products.length) {
+    grid.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = data.products.slice(0, 8).map(p => {
+    const price   = parseFloat(p.price);
+    const sale    = p.sale_price ? parseFloat(p.sale_price) : null;
+    const display = sale || price;
+    const badgeHtml = p.badge
+      ? `<div class="product-badges"><span class="badge badge-${p.badge}">${p.badge === 'sale' && sale ? `-${Math.round((price - sale) / price * 100)}%` : p.badge}</span></div>`
+      : '';
+    const img = p.image_url || 'https://via.placeholder.com/400x300/1e293b/3B82F6?text=GGZone';
+
+    return `
+    <div class="product-card" onclick="window.location.href='pages/product.html?id=${p.id}'">
+      <div class="product-img-wrap">
+        <img src="${img}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300/1e293b/3B82F6?text=GGZone'" />
+        ${badgeHtml}
+        <div class="product-actions">
+          <button class="product-action-btn" data-wish-id="${p.id}" onclick="event.stopPropagation();if(typeof Wishlist!=='undefined')Wishlist.click(this)"><i class="far fa-heart"></i></button>
+          <a href="pages/product.html?id=${p.id}" class="product-action-btn" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-platform">${p.platform || p.category_name || ''}</div>
+        <div class="product-title">${p.title}</div>
+        <div class="product-rating">
+          <div class="stars">${'<span class="star filled">★</span>'.repeat(5)}</div>
+          <span>(${p.sales_count || 0})</span>
+        </div>
+        <div class="product-price">
+          <span class="price-current" data-usd="${display}">${Currency.format(display)}</span>
+          ${sale ? `<span class="price-original" data-usd="${price}">${Currency.format(price)}</span>` : ''}
+        </div>
+        <div class="product-footer">
+          <button class="btn-cart"
+            data-product="${p.id}" data-title="${p.title.replace(/"/g, '&quot;')}"
+            data-price="${display}" data-image="${img}" data-platform="${p.platform || ''}"
+            onclick="event.stopPropagation();">
+            <i class="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+          <button class="btn-wish" data-wish-id="${p.id}" onclick="event.stopPropagation();if(typeof Wishlist!=='undefined')Wishlist.click(this)"><i class="far fa-heart"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if (typeof Wishlist !== 'undefined') Wishlist.restoreAll();
+
+  grid.querySelectorAll('.btn-cart[data-product]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      Cart.add({
+        id: parseInt(btn.dataset.product),
+        title: btn.dataset.title,
+        price: parseFloat(btn.dataset.price),
+        image: btn.dataset.image,
+        platform: btn.dataset.platform,
+      });
+      btn.innerHTML = '<i class="fas fa-check"></i> Added!';
+      btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 1500);
+    });
+  });
+})();
+
+document.addEventListener('currency:changed', () => Currency.applyToDOM());
+</script>
+<script>
+  function handleNewsletter(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    showToast(`Thanks! You're subscribed with ${email}`, 'success');
+    e.target.reset();
+  }
+</script>
+</body>
+</html>

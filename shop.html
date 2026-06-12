@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — GGZone</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo">
+        <span class="logo-icon">🎮</span>
+        <span class="logo-text">GGZone</span>
+      </a>
+      <div class="nav-search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search products..." id="nav-search" />
+      </div>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="shop.html" class="nav-link active" data-i18n="nav.shop">Shop</a>
+        <a href="shop.html?cat=gift-cards" class="nav-link" data-i18n="nav.giftCards">Gift Cards</a>
+        <a href="shop.html?cat=subscriptions" class="nav-link" data-i18n="nav.subscriptions">Subscriptions</a>
+      </div>
+      <div class="nav-actions">
+        <div class="locale-picker">
+          <button class="locale-btn" onclick="LocalePicker.toggle(event)">
+            <i class="fas fa-globe"></i>
+            <span class="locale-label">EN · $ USD</span>
+            <i class="fas fa-chevron-down locale-chevron"></i>
+          </button>
+          <div class="locale-dropdown">
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.language">Language</div>
+              <div class="locale-options">
+                <button class="locale-option" data-lang="en" onclick="LocalePicker.setLang('en')"><span class="locale-flag">🇺🇸</span>English</button>
+                <button class="locale-option" data-lang="ar" onclick="LocalePicker.setLang('ar')"><span class="locale-flag">🇮🇶</span>العربية</button>
+              </div>
+            </div>
+            <div class="locale-divider"></div>
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.currency">Currency</div>
+              <div class="locale-options">
+                <button class="locale-option" data-currency="USD" onclick="LocalePicker.setCurrency('USD')"><span class="locale-symbol">$</span>USD — Dollar</button>
+                <button class="locale-option" data-currency="IQD" onclick="LocalePicker.setCurrency('IQD')"><span class="locale-symbol">IQD</span>Iraqi Dinar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="login.html" class="btn btn-outline btn-sm nav-login-link" data-i18n="nav.signIn">Sign In</a>
+        <div class="nav-user-menu" style="display:none;">
+          <a href="dashboard.html" class="nav-action-btn"><i class="fas fa-user"></i></a>
+        </div>
+        <a href="cart.html" class="nav-action-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <form class="mobile-search-form" onsubmit="event.preventDefault(); const q=this.querySelector('input').value.trim(); if(q){ document.getElementById('shop-search-input').value=q; filterProducts(); document.getElementById('mobile-nav').classList.remove('open'); }">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search products..." />
+  </form>
+  <a href="../index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="shop.html?cat=pc">🖥️ <span data-i18n="cat.pc">PC Gaming</span></a>
+  <a href="cart.html">Cart</a>
+  <a href="login.html" class="nav-login-link">Sign In</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="shop-header gaming-bg">
+  <div class="container">
+    <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+      <a href="../index.html" style="color:var(--text-muted);" data-i18n="nav.home">Home</a>
+      <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+      <span style="color:white;" id="breadcrumb-cat" data-i18n="shop.allProducts">All Products</span>
+    </div>
+    <h1 class="section-title" id="shop-heading" data-i18n-html="shop.heading">All <span class="gradient-text">Products</span></h1>
+    <p style="color:var(--text-muted); margin-top:8px;" data-i18n="shop.desc">Browse our complete gaming product catalog</p>
+  </div>
+</div>
+
+<div class="section-sm">
+  <div class="container">
+    <div class="shop-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="sidebar.catTitle">Categories</div>
+          <div class="filter-option active" data-cat="all"><input type="radio" name="cat" checked /> <span data-i18n="sidebar.allProducts">All Products</span></div>
+          <div class="filter-option" data-cat="playstation"><input type="radio" name="cat" /> <i class="fab fa-playstation" style="color:#60A5FA"></i> <span data-i18n="cat.playstation">PlayStation</span></div>
+          <div class="filter-option" data-cat="xbox"><input type="radio" name="cat" /> <i class="fab fa-xbox" style="color:#34D399"></i> <span data-i18n="cat.xbox">Xbox</span></div>
+          <div class="filter-option" data-cat="nintendo"><input type="radio" name="cat" /> 🎮 <span data-i18n="cat.nintendo">Nintendo</span></div>
+          <div class="filter-option" data-cat="psp"><input type="radio" name="cat" /> 🕹️ <span data-i18n="cat.psp">PSP</span></div>
+          <div class="filter-option" data-cat="steam"><input type="radio" name="cat" /> <i class="fab fa-steam"></i> <span data-i18n="cat.steam">Steam</span></div>
+          <div class="filter-option" data-cat="gift-cards"><input type="radio" name="cat" /> <i class="fas fa-gift" style="color:#FCD34D"></i> <span data-i18n="cat.giftCards">Gift Cards</span></div>
+          <div class="filter-option" data-cat="subscriptions"><input type="radio" name="cat" /> <i class="fas fa-star" style="color:#93C5FD"></i> <span data-i18n="cat.subscriptions">Subscriptions</span></div>
+          <div class="filter-option" data-cat="accessories"><input type="radio" name="cat" /> <i class="fas fa-headset" style="color:#FC8181"></i> <span data-i18n="cat.accessories">Accessories</span></div>
+          <div class="filter-option" data-cat="pc"><input type="radio" name="cat" /> <i class="fas fa-desktop" style="color:#818CF8"></i> <span data-i18n="cat.pc">PC Gaming</span></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="sidebar.priceTitle">Price Range</div>
+          <div class="price-range">
+            <div class="price-input">
+              <label data-i18n="sidebar.minLabel">Min ($)</label>
+              <input type="number" id="price-min" placeholder="0" min="0" data-i18n-ph="sidebar.minLabel" />
+            </div>
+            <div class="price-input">
+              <label data-i18n="sidebar.maxLabel">Max ($)</label>
+              <input type="number" id="price-max" placeholder="1000" min="0" data-i18n-ph="sidebar.maxLabel" />
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm w-full" style="margin-top:12px;" onclick="applyFilters()" data-i18n="sidebar.applyFilter">Apply Filter</button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="sidebar.platformTitle">Platform</div>
+          <div class="filter-option"><input type="checkbox" /> Xbox</div>
+          <div class="filter-option"><input type="checkbox" /> PlayStation</div>
+          <div class="filter-option"><input type="checkbox" /> Nintendo</div>
+          <div class="filter-option"><input type="checkbox" /> Steam</div>
+          <div class="filter-option"><input type="checkbox" /> Roblox</div>
+          <div class="filter-option"><input type="checkbox" /> Fortnite</div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="sidebar.typeTitle">Product Type</div>
+          <div class="filter-option"><input type="checkbox" /> <span data-i18n="sidebar.physicalConsole">Physical Console</span></div>
+          <div class="filter-option"><input type="checkbox" /> <span data-i18n="sidebar.digitalCode">Digital Code</span></div>
+          <div class="filter-option"><input type="checkbox" /> <span data-i18n="sidebar.giftCard">Gift Card</span></div>
+          <div class="filter-option"><input type="checkbox" /> <span data-i18n="sidebar.subscription">Subscription</span></div>
+          <div class="filter-option"><input type="checkbox" /> <span data-i18n="sidebar.accessory">Accessory</span></div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title" data-i18n="sidebar.ratingTitle">Rating</div>
+          <div class="filter-option"><input type="radio" name="rating" /> ⭐⭐⭐⭐⭐ (5 stars)</div>
+          <div class="filter-option"><input type="radio" name="rating" /> ⭐⭐⭐⭐+ (4 stars)</div>
+          <div class="filter-option"><input type="radio" name="rating" /> ⭐⭐⭐+ (3 stars)</div>
+        </div>
+
+        <button class="btn btn-ghost btn-sm w-full" onclick="resetFilters()">
+          <i class="fas fa-times"></i> <span data-i18n="sidebar.clearFilters">Clear All Filters</span>
+        </button>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div>
+        <div class="shop-toolbar">
+          <div class="shop-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search products..." id="shop-search-input" oninput="filterProducts()" data-i18n-ph="shop.searchPh" />
+          </div>
+          <span class="shop-count" id="product-count">Showing 24 products</span>
+          <div class="shop-sort">
+            <select id="sort-select" onchange="filterProducts()">
+              <option value="newest" data-i18n="sort.newest">Newest First</option>
+              <option value="best-selling" data-i18n="sort.best">Best Selling</option>
+              <option value="price-low" data-i18n="sort.priceLow">Price: Low to High</option>
+              <option value="price-high" data-i18n="sort.priceHigh">Price: High to Low</option>
+              <option value="rating" data-i18n="sort.rated">Top Rated</option>
+              <option value="az" data-i18n="sort.az">Name: A to Z</option>
+              <option value="za" data-i18n="sort.za">Name: Z to A</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+          <!-- Products rendered by JS -->
+        </div>
+
+        <div class="pagination" id="pagination">
+          <button class="page-btn disabled"><i class="fas fa-chevron-left"></i></button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">4</button>
+          <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding:24px 0;">
+      <span data-i18n="footer.copyright">© 2025 GGZone. All rights reserved.</span>
+      <span><span data-i18n="footer.designedBy">Designed & Developed by</span> <a href="https://instagram.com/itzz_davidb" target="_blank">David Bashar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/currency.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/wishlist.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+// API base — works from XAMPP. On Live Server update to your XAMPP path.
+const SHOP_API = (() => {
+  const p = parseInt(location.port, 10);
+  if (p === 5500 || p === 5501 || p === 3000) return 'http://localhost/GG%20Project/admin/api';
+  return '../admin/api';
+})();
+
+let PRODUCTS = [];
+let activeCat = 'all';
+
+async function loadShopProducts() {
+  const grid = document.getElementById('products-grid');
+  grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;">
+    <i class="fas fa-spinner fa-spin" style="font-size:32px;color:var(--blue);"></i>
+    <p style="color:var(--text-muted);margin-top:12px;">Loading products...</p></div>`;
+
+  try {
+    const res  = await fetch(`${SHOP_API}/products.php?limit=500`);
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Failed');
+
+    // Map API fields to the shape the rest of the page expects
+    PRODUCTS = data.products.map(p => ({
+      id:       p.id,
+      title:    p.title,
+      platform: p.platform || p.category_name || '',
+      cat:      p.category_slug || 'other',
+      price:    parseFloat(p.price),
+      sale:     p.sale_price ? parseFloat(p.sale_price) : null,
+      img:      p.image_url  || 'https://via.placeholder.com/400x300/1e293b/3B82F6?text=GGZone',
+      badge:    p.badge      || null,
+      rating:   4.5,
+      sold:     parseInt(p.sales_count) || 0,
+    }));
+  } catch {
+    PRODUCTS = [];
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 0;">
+      <i class="fas fa-exclamation-circle" style="font-size:48px;color:var(--text-muted);display:block;margin-bottom:12px;"></i>
+      <h3>Could not load products</h3>
+      <p style="color:var(--text-muted);margin-top:8px;">Make sure XAMPP is running and the database is set up.</p></div>`;
+    return;
+  }
+
+  filterProducts();
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('products-grid');
+  const count = document.getElementById('product-count');
+  count.textContent = I18n.tf('shop.showing', { n: products.length });
+
+  if (!products.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px 0;">
+      <i class="fas fa-search" style="font-size:48px; color:var(--text-muted); margin-bottom:16px; display:block;"></i>
+      <h3>${I18n.t('shop.noProducts')}</h3>
+      <p style="color:var(--text-muted); margin-top:8px;">${I18n.t('shop.adjustFilters')}</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = products.map(p => {
+    const displayPrice = p.sale || p.price;
+    const badgeHtml = p.badge
+      ? `<span class="badge badge-${p.badge}">${p.badge === 'sale' ? `-${Math.round((p.price-p.sale)/p.price*100)}%` : p.badge}</span>`
+      : '';
+    return `
+    <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'">
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.title}" loading="lazy" />
+        ${badgeHtml ? `<div class="product-badges">${badgeHtml}</div>` : ''}
+        <div class="product-actions">
+          <button class="product-action-btn" data-wish-id="${p.id}" onclick="event.stopPropagation(); if(typeof Wishlist!=='undefined')Wishlist.click(this)"><i class="far fa-heart"></i></button>
+          <a href="product.html?id=${p.id}" class="product-action-btn" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+        </div>
+      </div>
+      <div class="product-info">
+        <div class="product-platform">${p.platform}</div>
+        <div class="product-title">${p.title}</div>
+        <div class="product-rating">
+          <div class="stars">${'<span class="star filled">★</span>'.repeat(Math.round(p.rating))}${'<span class="star">★</span>'.repeat(5-Math.round(p.rating))}</div>
+          <span>(${p.sold.toLocaleString()})</span>
+        </div>
+        <div class="product-price">
+          <span class="price-current">${Currency.format(displayPrice)}</span>
+          ${p.sale ? `<span class="price-original">${Currency.format(p.price)}</span>` : ''}
+        </div>
+        <div class="product-footer">
+          <button class="btn-cart"
+            data-product="${p.id}" data-title="${p.title}" data-price="${displayPrice}"
+            data-image="${p.img}" data-platform="${p.platform}"
+            onclick="event.stopPropagation();">
+            <i class="fas fa-shopping-cart"></i> ${I18n.t('btn.addToCart')}
+          </button>
+          <button class="btn-wish" data-wish-id="${p.id}" onclick="event.stopPropagation(); if(typeof Wishlist!=='undefined')Wishlist.click(this)"><i class="far fa-heart"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if (typeof Wishlist !== 'undefined') Wishlist.restoreAll();
+
+  // Re-attach cart listeners
+  grid.querySelectorAll('.btn-cart[data-product]').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      const added = await Cart.add({
+        id: parseInt(btn.dataset.product),
+        title: btn.dataset.title,
+        price: parseFloat(btn.dataset.price),
+        image: btn.dataset.image,
+        platform: btn.dataset.platform,
+      });
+      if (added !== false) {
+        btn.innerHTML = `<i class="fas fa-check"></i> ${I18n.t('btn.addedToCart')}`;
+        btn.style.background = 'linear-gradient(135deg,#10B981,#059669)';
+        setTimeout(() => {
+          btn.innerHTML = `<i class="fas fa-shopping-cart"></i> ${I18n.t('btn.addToCart')}`;
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 1500);
+      } else {
+        btn.innerHTML = `<i class="fas fa-shopping-cart"></i> ${I18n.t('btn.addToCart')}`;
+        btn.disabled = false;
+      }
+    });
+  });
+}
+
+function filterProducts() {
+  if (!PRODUCTS.length) return;
+  const search = document.getElementById('shop-search-input').value.toLowerCase();
+  const sort   = document.getElementById('sort-select').value;
+  const minP   = parseFloat(document.getElementById('price-min').value) || 0;
+  const maxP   = parseFloat(document.getElementById('price-max').value) || Infinity;
+
+  let result = PRODUCTS.filter(p => {
+    const matchCat    = activeCat === 'all' || p.cat === activeCat;
+    const matchSearch = p.title.toLowerCase().includes(search) || p.platform.toLowerCase().includes(search);
+    const price       = p.sale || p.price;
+    const matchPrice  = price >= minP && price <= maxP;
+    return matchCat && matchSearch && matchPrice;
+  });
+
+  switch(sort) {
+    case 'price-low':  result.sort((a,b) => (a.sale||a.price)-(b.sale||b.price)); break;
+    case 'price-high': result.sort((a,b) => (b.sale||b.price)-(a.sale||a.price)); break;
+    case 'best-selling': result.sort((a,b) => b.sold-a.sold); break;
+    case 'rating':     result.sort((a,b) => b.rating-a.rating); break;
+    case 'az':         result.sort((a,b) => a.title.localeCompare(b.title)); break;
+    case 'za':         result.sort((a,b) => b.title.localeCompare(a.title)); break;
+    default: break;
+  }
+  renderProducts(result);
+}
+
+function applyFilters() { filterProducts(); }
+function resetFilters() {
+  activeCat = 'all';
+  document.getElementById('shop-search-input').value = '';
+  document.getElementById('price-min').value = '';
+  document.getElementById('price-max').value = '';
+  document.querySelectorAll('.filter-option').forEach(f => f.classList.remove('active'));
+  document.querySelector('.filter-option[data-cat="all"]').classList.add('active');
+  filterProducts();
+}
+
+// Category filters
+document.querySelectorAll('.filter-option[data-cat]').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.filter-option[data-cat]').forEach(f => f.classList.remove('active'));
+    opt.classList.add('active');
+    activeCat = opt.dataset.cat;
+    filterProducts();
+  });
+});
+
+// URL param
+const urlParams = new URLSearchParams(window.location.search);
+const catParam  = urlParams.get('cat');
+const searchParam = urlParams.get('search');
+if (catParam) {
+  activeCat = catParam;
+  const catOpt = document.querySelector(`.filter-option[data-cat="${catParam}"]`);
+  if (catOpt) {
+    document.querySelectorAll('.filter-option[data-cat]').forEach(f => f.classList.remove('active'));
+    catOpt.classList.add('active');
+    const catKeys = { xbox:'cat.xbox', playstation:'cat.playstation', nintendo:'cat.nintendo', psp:'cat.psp', steam:'cat.steam', 'gift-cards':'cat.giftCards', subscriptions:'cat.subscriptions', accessories:'cat.accessories', controllers:'cat.controllers', headsets:'cat.headsets', 'covers-skins':'cat.coversSkins', 'in-game-currency':'cat.inGameCurrency', 'rgb-decor':'cat.rgbDecor', pc:'cat.pc' };
+    const catName = I18n.t(catKeys[catParam] || catParam);
+    document.getElementById('breadcrumb-cat').textContent = catName;
+    document.getElementById('shop-heading').innerHTML = `${catName} <span class="gradient-text">${I18n.t('cat.productsLabel')}</span>`;
+  }
+}
+if (searchParam) document.getElementById('shop-search-input').value = searchParam;
+
+loadShopProducts();
+
+document.addEventListener('currency:changed', filterProducts);
+document.addEventListener('lang:changed', () => {
+  filterProducts();
+  if (catParam) {
+    const catKeys = { xbox:'cat.xbox', playstation:'cat.playstation', nintendo:'cat.nintendo', psp:'cat.psp', steam:'cat.steam', 'gift-cards':'cat.giftCards', subscriptions:'cat.subscriptions', accessories:'cat.accessories', controllers:'cat.controllers', headsets:'cat.headsets', 'covers-skins':'cat.coversSkins', 'in-game-currency':'cat.inGameCurrency', 'rgb-decor':'cat.rgbDecor', pc:'cat.pc' };
+    const catName = I18n.t(catKeys[catParam] || catParam);
+    document.getElementById('breadcrumb-cat').textContent = catName;
+    document.getElementById('shop-heading').innerHTML = `${catName} <span class="gradient-text">${I18n.t('cat.productsLabel')}</span>`;
+  }
+});
+</script>
+</body>
+</html>

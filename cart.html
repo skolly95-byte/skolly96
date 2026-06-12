@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — GGZone</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">GGZone</span></a>
+      <div class="nav-search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Search..." /></div>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="shop.html" class="nav-link" data-i18n="nav.shop">Shop</a>
+      </div>
+      <div class="nav-actions">
+        <div class="locale-picker">
+          <button class="locale-btn" onclick="LocalePicker.toggle(event)">
+            <i class="fas fa-globe"></i>
+            <span class="locale-label">EN · $ USD</span>
+            <i class="fas fa-chevron-down locale-chevron"></i>
+          </button>
+          <div class="locale-dropdown">
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.language">Language</div>
+              <div class="locale-options">
+                <button class="locale-option" data-lang="en" onclick="LocalePicker.setLang('en')"><span class="locale-flag">🇺🇸</span>English</button>
+                <button class="locale-option" data-lang="ar" onclick="LocalePicker.setLang('ar')"><span class="locale-flag">🇮🇶</span>العربية</button>
+              </div>
+            </div>
+            <div class="locale-divider"></div>
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.currency">Currency</div>
+              <div class="locale-options">
+                <button class="locale-option" data-currency="USD" onclick="LocalePicker.setCurrency('USD')"><span class="locale-symbol">$</span>USD — Dollar</button>
+                <button class="locale-option" data-currency="IQD" onclick="LocalePicker.setCurrency('IQD')"><span class="locale-symbol">IQD</span>Iraqi Dinar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="login.html" class="btn btn-outline btn-sm nav-login-link" data-i18n="nav.signIn">Sign In</a>
+        <a href="cart.html" class="nav-action-btn" style="color:var(--blue);">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <form class="mobile-search-form" onsubmit="event.preventDefault(); const q=this.querySelector('input').value.trim(); if(q) window.location.href='shop.html?search='+encodeURIComponent(q);">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search products..." />
+  </form>
+  <a href="../index.html">Home</a>
+  <a href="shop.html">Shop</a>
+  <a href="login.html" class="nav-login-link">Sign In</a>
+</div>
+
+<section class="cart-section">
+  <div class="container">
+    <div style="margin-bottom:30px;">
+      <h1 class="section-title" data-i18n-html="cart.title">Your <span class="gradient-text">Cart</span></h1>
+      <p style="color:var(--text-muted); margin-top:6px;" data-i18n="cart.subtitle">Review your items before checkout</p>
+    </div>
+
+    <div class="cart-layout">
+      <!-- Cart Items -->
+      <div>
+        <div id="cart-items">
+          <!-- Rendered by cart.js -->
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:24px; flex-wrap:wrap; gap:12px;">
+          <a href="shop.html" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i> <span data-i18n="cart.continueShopping">Continue Shopping</span>
+          </a>
+          <button class="btn btn-ghost" onclick="Cart.clear(); renderCart(); showToast(I18n.t('toast.cartCleared'),'info');">
+            <i class="fas fa-trash"></i> <span data-i18n="cart.clearCart">Clear Cart</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <div class="summary-title" data-i18n="cart.orderSummary">Order Summary</div>
+
+        <div class="coupon-input">
+          <input type="text" class="form-input" id="coupon-input" placeholder="Coupon code (e.g. GGZONE10)" data-i18n-ph="cart.couponPh" />
+          <button class="btn btn-outline" id="apply-coupon" data-i18n="cart.apply">Apply</button>
+        </div>
+        <div style="font-size:12px; color:var(--text-muted); margin-bottom:16px;">
+          Try: GGZONE10, SAVE20, GAMING15, WELCOME5
+        </div>
+
+        <div class="summary-row"><span data-i18n="cart.subtotal">Subtotal</span><span id="summary-subtotal">$0.00</span></div>
+        <div class="summary-row"><span data-i18n="cart.discount">Discount</span><span id="summary-discount" style="color:var(--success);">$0.00</span></div>
+        <div class="summary-row"><span data-i18n="cart.shipping">Shipping</span><span id="summary-shipping" data-i18n="cart.free">Free</span></div>
+        <div class="summary-row total"><span data-i18n="cart.total">Total</span><span id="summary-total">$0.00</span></div>
+
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+          <a href="checkout.html" class="btn btn-primary btn-lg w-full">
+            <i class="fas fa-lock"></i> <span data-i18n="cart.checkout">Proceed to Checkout</span>
+          </a>
+          <div style="display:flex; gap:8px; justify-content:center;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/200px-Visa_Inc._logo.svg.png" alt="Visa" style="height:22px; filter:grayscale(1) brightness(2); opacity:0.5;" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png" alt="Mastercard" style="height:22px; filter:grayscale(1) brightness(2); opacity:0.5;" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/200px-PayPal.svg.png" alt="PayPal" style="height:22px; filter:grayscale(1) brightness(2); opacity:0.5;" />
+          </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:6px; font-size:12px; color:var(--text-muted);">
+            <i class="fas fa-lock"></i> <span data-i18n="cart.ssl">SSL Encrypted & Secure</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding:24px 0;">
+      <span>© 2025 GGZone. All rights reserved.</span>
+      <span>Designed & Developed by <a href="https://instagram.com/itzz_davidb" target="_blank">David Bashar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/currency.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/auth.js"></script>
+</body>
+</html>

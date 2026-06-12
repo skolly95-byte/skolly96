@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Product — GGZone</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">GGZone</span></a>
+      <div class="nav-search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Search products..." /></div>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-link" data-i18n="nav.home">Home</a>
+        <a href="shop.html" class="nav-link active" data-i18n="nav.shop">Shop</a>
+        <a href="shop.html?cat=gift-cards" class="nav-link" data-i18n="nav.giftCards">Gift Cards</a>
+        <a href="shop.html?cat=subscriptions" class="nav-link" data-i18n="nav.subscriptions">Subscriptions</a>
+      </div>
+      <div class="nav-actions">
+        <div class="locale-picker">
+          <button class="locale-btn" onclick="LocalePicker.toggle(event)">
+            <i class="fas fa-globe"></i>
+            <span class="locale-label">EN · $ USD</span>
+            <i class="fas fa-chevron-down locale-chevron"></i>
+          </button>
+          <div class="locale-dropdown">
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.language">Language</div>
+              <div class="locale-options">
+                <button class="locale-option" data-lang="en" onclick="LocalePicker.setLang('en')"><span class="locale-flag">🇺🇸</span>English</button>
+                <button class="locale-option" data-lang="ar" onclick="LocalePicker.setLang('ar')"><span class="locale-flag">🇮🇶</span>العربية</button>
+              </div>
+            </div>
+            <div class="locale-divider"></div>
+            <div class="locale-section">
+              <div class="locale-section-title" data-i18n="locale.currency">Currency</div>
+              <div class="locale-options">
+                <button class="locale-option" data-currency="USD" onclick="LocalePicker.setCurrency('USD')"><span class="locale-symbol">$</span>USD — Dollar</button>
+                <button class="locale-option" data-currency="IQD" onclick="LocalePicker.setCurrency('IQD')"><span class="locale-symbol">IQD</span>Iraqi Dinar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="login.html" class="btn btn-outline btn-sm nav-login-link" data-i18n="nav.signIn">Sign In</a>
+        <a href="cart.html" class="nav-action-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobile-nav">
+  <form class="mobile-search-form" onsubmit="event.preventDefault(); const q=this.querySelector('input').value.trim(); if(q) window.location.href='shop.html?search='+encodeURIComponent(q);">
+    <i class="fas fa-search"></i>
+    <input type="text" placeholder="Search products..." data-i18n-ph="nav.searchPh" />
+  </form>
+  <a href="../index.html" data-i18n="nav.home">Home</a>
+  <a href="shop.html" data-i18n="nav.shop">Shop</a>
+  <a href="cart.html" data-i18n="nav.cart">Cart</a>
+  <a href="login.html" class="nav-login-link" data-i18n="nav.signIn">Sign In</a>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<section class="product-detail-section">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted); margin-bottom:30px;">
+      <a href="../index.html" style="color:var(--text-muted);" data-i18n="nav.home">Home</a>
+      <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+      <a href="shop.html" style="color:var(--text-muted);" data-i18n="nav.shop">Shop</a>
+      <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+      <a href="shop.html" style="color:var(--text-muted);" id="breadcrumb-cat-link">Category</a>
+      <i class="fas fa-chevron-right" style="font-size:10px;"></i>
+      <span style="color:white;" id="breadcrumb-product-name">Product</span>
+    </div>
+
+    <!-- Loading state -->
+    <div id="product-loading" style="text-align:center; padding:80px 0; display:none;">
+      <i class="fas fa-spinner fa-spin" style="font-size:40px; color:var(--blue);"></i>
+      <p style="margin-top:16px; color:var(--text-muted);">Loading product...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="product-error" style="text-align:center; padding:80px 0; display:none;">
+      <i class="fas fa-exclamation-triangle" style="font-size:48px; color:var(--warning); margin-bottom:16px;"></i>
+      <h2 style="margin-bottom:12px;">Product Not Found</h2>
+      <p style="color:var(--text-muted); margin-bottom:24px;">This product doesn't exist or has been removed.</p>
+      <a href="shop.html" class="btn btn-primary">Back to Shop</a>
+    </div>
+
+    <div id="product-content">
+      <div class="product-detail-grid">
+        <!-- Gallery -->
+        <div>
+          <div class="gallery-main">
+            <img src="" alt="" id="main-img" />
+          </div>
+          <div class="gallery-thumbs" id="gallery-thumbs">
+            <div class="gallery-thumb active">
+              <img src="" alt="" id="thumb-main" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="detail-platform" id="detail-platform"></div>
+          <h1 class="detail-title" id="detail-title"></h1>
+
+          <div class="detail-rating">
+            <div class="stars">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+            <span style="font-weight:600;">5.0</span>
+            <span class="detail-rating-count">(New)</span>
+            <span style="color:var(--success); font-size:13px;" id="detail-stock-badge">
+              <i class="fas fa-check-circle"></i> <span data-i18n="product.inStock">In Stock</span>
+            </span>
+          </div>
+
+          <div class="detail-price-block">
+            <span class="detail-price-current" id="detail-price" data-usd="0">$0.00</span>
+            <span class="detail-price-original" id="detail-price-original" style="display:none;"></span>
+          </div>
+
+          <p class="detail-desc" id="detail-desc"></p>
+
+          <!-- Specs -->
+          <div class="detail-specs" id="detail-specs"></div>
+
+          <!-- Quantity -->
+          <div class="detail-qty">
+            <span class="detail-qty-label" data-i18n="product.quantity">Quantity:</span>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input type="number" class="qty-num" id="qty-input" value="1" min="1" max="99" readonly />
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+            <span style="font-size:13px; color:var(--text-muted);" id="detail-stock-label"></span>
+          </div>
+
+          <!-- Actions -->
+          <div class="detail-actions" style="flex-wrap:wrap;">
+            <button class="btn btn-primary btn-lg" id="btn-add-cart">
+              <i class="fas fa-shopping-cart"></i> <span data-i18n="btn.addToCart">Add to Cart</span>
+            </button>
+            <button class="btn btn-purple btn-lg" id="btn-buy-now">
+              <i class="fas fa-bolt"></i> <span data-i18n="btn.buyNow">Buy Now</span>
+            </button>
+            <button class="btn btn-ghost btn-lg" id="btn-wishlist" onclick="if(typeof Wishlist!=='undefined')Wishlist.click(this)">
+              <i class="far fa-heart"></i>
+            </button>
+            <button class="btn btn-ghost btn-lg" onclick="showToast('Link copied!','info')">
+              <i class="fas fa-share-alt"></i>
+            </button>
+          </div>
+
+          <!-- Trust badges -->
+          <div style="display:flex; flex-wrap:wrap; gap:16px; margin-top:24px; padding-top:24px; border-top:1px solid var(--border);">
+            <span style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted);">
+              <i class="fas fa-shield-alt" style="color:var(--success);"></i> <span data-i18n="product.securePayment">Secure Payment</span>
+            </span>
+            <span style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted);">
+              <i class="fas fa-undo" style="color:var(--blue);"></i> <span data-i18n="product.returns">30-Day Returns</span>
+            </span>
+            <span style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted);">
+              <i class="fas fa-truck" style="color:var(--purple);"></i> <span data-i18n="product.freeShipping">Free Shipping $50+</span>
+            </span>
+            <span style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--text-muted);">
+              <i class="fas fa-certificate" style="color:var(--warning);"></i> <span data-i18n="product.officialProduct">Official Product</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- REVIEWS SECTION -->
+      <div style="margin-top:60px;">
+        <h2 class="section-title" style="margin-bottom:32px;" data-i18n="product.customerReviews">Customer Reviews</h2>
+        <div class="reviews-grid" style="display:grid; grid-template-columns:280px 1fr; gap:40px; align-items:start;">
+          <!-- Rating Summary -->
+          <div class="glass-card" style="padding:28px; text-align:center;">
+            <div style="font-size:64px; font-weight:800; font-family:var(--font-gaming);" class="gradient-text">5.0</div>
+            <div class="stars" style="justify-content:center; font-size:20px; margin-bottom:8px;">
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span><span class="star filled">★</span>
+              <span class="star filled">★</span>
+            </div>
+            <div style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Based on reviews</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
+                <span style="white-space:nowrap;">5 ★</span>
+                <div style="flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                  <div style="width:88%; height:100%; background:var(--blue); border-radius:3px;"></div>
+                </div>
+                <span style="color:var(--text-muted);">88%</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
+                <span style="white-space:nowrap;">4 ★</span>
+                <div style="flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                  <div style="width:9%; height:100%; background:var(--blue); border-radius:3px;"></div>
+                </div>
+                <span style="color:var(--text-muted);">9%</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
+                <span style="white-space:nowrap;">3 ★</span>
+                <div style="flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                  <div style="width:2%; height:100%; background:var(--blue); border-radius:3px;"></div>
+                </div>
+                <span style="color:var(--text-muted);">2%</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:13px;">
+                <span style="white-space:nowrap;">2 ★</span>
+                <div style="flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden;">
+                  <div style="width:1%; height:100%; background:var(--blue); border-radius:3px;"></div>
+                </div>
+                <span style="color:var(--text-muted);">1%</span>
+              </div>
+            </div>
+            <button class="btn btn-primary w-full" style="margin-top:20px;" onclick="openModal('review-modal')">
+              <i class="fas fa-pen"></i> <span data-i18n="product.writeReview">Write a Review</span>
+            </button>
+          </div>
+
+          <!-- Reviews List -->
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="glass-card" style="padding:22px;">
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <img src="https://ui-avatars.com/api/?name=Ahmed+K&background=3B82F6&color=fff&bold=true&size=40" style="width:40px;height:40px;border-radius:50%;" />
+                <div>
+                  <div style="font-weight:600; font-size:15px;">Ahmed K.</div>
+                  <div style="font-size:12px; color:var(--text-muted);">Verified Purchase · 2 weeks ago</div>
+                </div>
+                <div class="stars" style="margin-left:auto;"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+              </div>
+              <p style="font-size:14px; color:var(--text-muted); line-height:1.7;">"Great product, fast delivery from GGZone. Exactly as described and in perfect condition!"</p>
+            </div>
+
+            <div class="glass-card" style="padding:22px;">
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                <img src="https://ui-avatars.com/api/?name=Sara+M&background=8B5CF6&color=fff&bold=true&size=40" style="width:40px;height:40px;border-radius:50%;" />
+                <div>
+                  <div style="font-weight:600; font-size:15px;">Sara M.</div>
+                  <div style="font-size:12px; color:var(--text-muted);">Verified Purchase · 1 month ago</div>
+                </div>
+                <div class="stars" style="margin-left:auto;"><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span></div>
+              </div>
+              <p style="font-size:14px; color:var(--text-muted); line-height:1.7;">"Worth every penny. GGZone's service was excellent — fast shipping and great packaging."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RELATED PRODUCTS -->
+      <div style="margin-top:60px;" id="related-section">
+        <h2 class="section-title" style="margin-bottom:30px;" data-i18n="product.relatedProducts">Related Products</h2>
+        <div class="products-grid" id="related-grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Review Modal -->
+<div class="modal-overlay" id="review-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" data-i18n="product.writeReview">Write a Review</h3>
+      <button class="modal-close" data-modal-close="review-modal"><i class="fas fa-times"></i></button>
+    </div>
+    <form onsubmit="submitReview(event)">
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div class="form-group">
+          <label class="form-label" data-i18n="product.yourRating">Your Rating</label>
+          <div class="stars" style="font-size:28px; gap:6px; cursor:pointer;" id="star-rating">
+            <span class="star" data-val="1" onclick="setRating(1)" style="cursor:pointer;">★</span>
+            <span class="star" data-val="2" onclick="setRating(2)" style="cursor:pointer;">★</span>
+            <span class="star" data-val="3" onclick="setRating(3)" style="cursor:pointer;">★</span>
+            <span class="star" data-val="4" onclick="setRating(4)" style="cursor:pointer;">★</span>
+            <span class="star" data-val="5" onclick="setRating(5)" style="cursor:pointer;">★</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="product.yourName">Your Name</label>
+          <input type="text" class="form-input" placeholder="Enter your name" data-i18n-ph="product.namePh" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="product.reviewTitle">Review Title</label>
+          <input type="text" class="form-input" placeholder="Summary of your experience" data-i18n-ph="product.reviewTitlePh" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="product.yourReview">Your Review</label>
+          <textarea class="form-input" rows="4" placeholder="Tell others about your experience..." data-i18n-ph="product.reviewBodyPh" style="resize:vertical;" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-full" data-i18n="product.submitReview">Submit Review</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom" style="padding:24px 0;">
+      <span>© 2025 GGZone. All rights reserved.</span>
+      <span>Designed & Developed by <a href="https://instagram.com/itzz_davidb" target="_blank">David Bashar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/i18n.js"></script>
+<script src="../js/currency.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/wishlist.js"></script>
+<script src="../js/search.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+let currentRating = 0;
+let _currentProduct = null;
+
+function setRating(val) {
+  currentRating = val;
+  document.querySelectorAll('#star-rating .star').forEach((s,i) => {
+    s.classList.toggle('filled', i < val);
+  });
+}
+function submitReview(e) {
+  e.preventDefault();
+  if (!currentRating) return showToast('Please select a rating', 'error');
+  showToast('Review submitted! Thank you!', 'success');
+  closeModal('review-modal');
+}
+
+async function loadProduct() {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'), 10);
+
+  const content = document.getElementById('product-content');
+  const loading = document.getElementById('product-loading');
+  const error   = document.getElementById('product-error');
+
+  if (!id) {
+    // No ID in URL — show error
+    content.style.display = 'none';
+    error.style.display = 'block';
+    return;
+  }
+
+  content.style.display = 'none';
+  loading.style.display = 'block';
+
+  try {
+    const res  = await fetch(`../admin/api/products.php?id=${id}`);
+    const data = await res.json();
+
+    if (!data.success || !data.product) {
+      loading.style.display = 'none';
+      error.style.display   = 'block';
+      return;
+    }
+
+    renderProduct(data.product);
+    loading.style.display  = 'none';
+    content.style.display  = 'block';
+  } catch (err) {
+    loading.style.display = 'none';
+    error.style.display   = 'block';
+  }
+}
+
+function renderProduct(p) {
+  _currentProduct = p;
+
+  // Page title
+  document.getElementById('page-title').textContent = p.title + ' — GGZone';
+
+  // Breadcrumb
+  const catLink = document.getElementById('breadcrumb-cat-link');
+  catLink.textContent = p.category_name || 'Shop';
+  catLink.href = p.category_slug ? `shop.html?cat=${p.category_slug}` : 'shop.html';
+  document.getElementById('breadcrumb-product-name').textContent = p.title;
+
+  // Image
+  const img = p.image_url || 'https://via.placeholder.com/700x500?text=No+Image';
+  document.getElementById('main-img').src  = img;
+  document.getElementById('main-img').alt  = p.title;
+  document.getElementById('thumb-main').src = img;
+  document.getElementById('thumb-main').alt = p.title;
+
+  // Platform badge
+  const platIcon = platformIcon(p.platform || p.category_name || '');
+  document.getElementById('detail-platform').innerHTML =
+    `${platIcon} ${p.platform || p.category_name || ''} · ${p.category_name || ''}`;
+
+  // Title
+  document.getElementById('detail-title').textContent = p.title;
+
+  // Price
+  const priceEl    = document.getElementById('detail-price');
+  const origPriceEl = document.getElementById('detail-price-original');
+  priceEl.setAttribute('data-usd', p.price);
+  const displayPrice = (typeof Currency !== 'undefined') ? Currency.format(p.price) : '$' + parseFloat(p.price).toFixed(2);
+  priceEl.textContent = displayPrice;
+  if (p.sale_price && parseFloat(p.sale_price) > 0 && parseFloat(p.sale_price) < parseFloat(p.price)) {
+    origPriceEl.setAttribute('data-usd', p.price);
+    origPriceEl.textContent = displayPrice;
+    origPriceEl.style.display = '';
+    priceEl.setAttribute('data-usd', p.sale_price);
+    const saleDisplay = (typeof Currency !== 'undefined') ? Currency.format(p.sale_price) : '$' + parseFloat(p.sale_price).toFixed(2);
+    priceEl.textContent = saleDisplay;
+  } else {
+    origPriceEl.style.display = 'none';
+  }
+
+  // Description
+  document.getElementById('detail-desc').textContent = p.description || '';
+
+  // Specs
+  const specs = [];
+  if (p.platform)      specs.push(['Platform', p.platform]);
+  if (p.category_name) specs.push(['Category', p.category_name]);
+  if (p.sku)           specs.push(['SKU', p.sku]);
+  if (p.stock != null) specs.push(['Stock', p.stock > 0 ? p.stock + ' available' : 'Out of stock']);
+  document.getElementById('detail-specs').innerHTML = specs.map(([k,v]) =>
+    `<div class="detail-spec"><span class="detail-spec-key">${k}</span><span class="detail-spec-val">${v}</span></div>`
+  ).join('');
+
+  // Stock status
+  const stockBadge = document.getElementById('detail-stock-badge');
+  const stockLabel = document.getElementById('detail-stock-label');
+  const stock = parseInt(p.stock, 10);
+  if (stock === 0) {
+    stockBadge.innerHTML = '<i class="fas fa-times-circle"></i> <span>Out of Stock</span>';
+    stockBadge.style.color = 'var(--danger, #ef4444)';
+    stockLabel.textContent = '';
+  } else {
+    stockBadge.innerHTML = '<i class="fas fa-check-circle"></i> <span data-i18n="product.inStock">In Stock</span>';
+    stockBadge.style.color = 'var(--success)';
+    if (stock < 10) stockLabel.textContent = stock + ' left in stock';
+  }
+
+  // Max quantity
+  if (stock > 0) document.getElementById('qty-input').max = Math.min(stock, 99);
+
+  // Add to Cart button
+  const finalPrice = (p.sale_price && parseFloat(p.sale_price) > 0) ? parseFloat(p.sale_price) : parseFloat(p.price);
+  const cartData = { id: p.id, title: p.title, price: finalPrice, image: p.image_url || '', platform: p.platform || p.category_name || '' };
+  const addBtn = document.getElementById('btn-add-cart');
+  addBtn.onclick = function() {
+    const qty = parseInt(document.getElementById('qty-input').value, 10) || 1;
+    for (let i = 0; i < qty; i++) Cart.add(cartData);
+    const t = typeof I18n !== 'undefined';
+    this.textContent = t ? I18n.t('btn.addedToCart') : 'Added!';
+    setTimeout(() => {
+      this.innerHTML = '<i class="fas fa-shopping-cart"></i> <span>' + (t ? I18n.t('btn.addToCart') : 'Add to Cart') + '</span>';
+    }, 1500);
+  };
+  if (stock === 0) { addBtn.disabled = true; addBtn.style.opacity = '0.5'; }
+
+  // Buy Now button
+  const buyBtn = document.getElementById('btn-buy-now');
+  buyBtn.onclick = function() {
+    const qty = parseInt(document.getElementById('qty-input').value, 10) || 1;
+    // Synchronous save — avoids async stock-check race before navigation
+    const items = Cart.getAll();
+    const idx = items.findIndex(i => i.id === cartData.id);
+    if (idx > -1) { items[idx].qty += qty; } else { items.push({ ...cartData, qty }); }
+    Cart.save(items);
+    window.location.href = 'cart.html';
+  };
+  if (stock === 0) { buyBtn.disabled = true; buyBtn.style.opacity = '0.5'; }
+
+  // Wishlist button state
+  const wishBtn = document.getElementById('btn-wishlist');
+  if (wishBtn) {
+    wishBtn.dataset.wishId = p.id;
+    if (typeof Wishlist !== 'undefined') {
+      const icon = wishBtn.querySelector('i');
+      const wished = Wishlist.has(p.id);
+      if (icon) { icon.className = wished ? 'fas fa-heart' : 'far fa-heart'; }
+      wishBtn.classList.toggle('wishlisted', wished);
+    }
+  }
+
+  // Related products
+  if (p.category_slug) loadRelated(p.category_slug, p.id);
+  else document.getElementById('related-section').style.display = 'none';
+}
+
+async function loadRelated(catSlug, excludeId) {
+  try {
+    const res  = await fetch(`../admin/api/products.php?category=${catSlug}&limit=4`);
+    const data = await res.json();
+    if (!data.success) return;
+
+    const related = data.products.filter(p => p.id != excludeId).slice(0, 4);
+    if (!related.length) { document.getElementById('related-section').style.display = 'none'; return; }
+
+    document.getElementById('related-grid').innerHTML = related.map(p => {
+      const price = p.sale_price && parseFloat(p.sale_price) > 0 ? parseFloat(p.sale_price) : parseFloat(p.price);
+      const origHtml = (p.sale_price && parseFloat(p.sale_price) > 0)
+        ? `<span class="price-original" data-usd="${p.price}">$${parseFloat(p.price).toFixed(2)}</span>` : '';
+      const badgeHtml = p.badge ? `<div class="product-badges"><span class="badge badge-${p.badge}">${p.badge.toUpperCase()}</span></div>` : '';
+      return `
+        <div class="product-card" onclick="window.location.href='product.html?id=${p.id}'">
+          <div class="product-img-wrap">
+            <img src="${p.image_url || ''}" alt="${p.title}" loading="lazy" />
+            ${badgeHtml}
+            <div class="product-actions">
+              <a href="product.html?id=${p.id}" class="product-action-btn" onclick="event.stopPropagation()"><i class="fas fa-eye"></i></a>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-platform">${p.platform || p.category_name || ''}</div>
+            <div class="product-title">${p.title}</div>
+            <div class="product-price">
+              <span class="price-current" data-usd="${price}">$${price.toFixed(2)}</span>${origHtml}
+            </div>
+            <div class="product-footer">
+              <button class="btn-cart" onclick="event.stopPropagation(); Cart.add({id:${p.id},title:'${p.title.replace(/'/g,"\\'")}',price:${price},image:'${p.image_url || ''}',platform:'${(p.platform||'').replace(/'/g,"\\'")}'})" >
+                <i class="fas fa-shopping-cart"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    // Re-apply currency formatting on related products
+    if (typeof Currency !== 'undefined') Currency.apply();
+  } catch(e) {
+    document.getElementById('related-section').style.display = 'none';
+  }
+}
+
+function platformIcon(name) {
+  const n = (name || '').toLowerCase();
+  if (n.includes('playstation') || n.includes('ps'))  return '<i class="fab fa-playstation"></i>';
+  if (n.includes('xbox'))                              return '<i class="fab fa-xbox"></i>';
+  if (n.includes('nintendo') || n.includes('switch')) return '<i class="fas fa-gamepad"></i>';
+  if (n.includes('steam') || n.includes('pc'))        return '<i class="fab fa-steam"></i>';
+  return '<i class="fas fa-gamepad"></i>';
+}
+
+// qty controls
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('.qty-minus').addEventListener('click', function() {
+    const inp = document.getElementById('qty-input');
+    if (parseInt(inp.value) > 1) inp.value = parseInt(inp.value) - 1;
+  });
+  document.querySelector('.qty-plus').addEventListener('click', function() {
+    const inp = document.getElementById('qty-input');
+    const max = parseInt(inp.max) || 99;
+    if (parseInt(inp.value) < max) inp.value = parseInt(inp.value) + 1;
+  });
+
+  loadProduct();
+});
+
+// Re-render price when currency changes
+document.addEventListener('currency:changed', function() {
+  if (!_currentProduct) return;
+  const p = _currentProduct;
+  const priceEl = document.getElementById('detail-price');
+  const origEl  = document.getElementById('detail-price-original');
+  const actualPrice = (p.sale_price && parseFloat(p.sale_price) > 0) ? parseFloat(p.sale_price) : parseFloat(p.price);
+  if (typeof Currency !== 'undefined') {
+    priceEl.textContent = Currency.format(actualPrice);
+    if (p.sale_price && parseFloat(p.sale_price) > 0) origEl.textContent = Currency.format(p.price);
+  }
+});
+</script>
+</body>
+</html>

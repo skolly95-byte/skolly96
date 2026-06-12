@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — GGZone</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div id="toast-container"></div>
+
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="../index.html" class="logo"><span class="logo-icon">🎮</span><span class="logo-text">GGZone</span></a>
+      <div style="display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-muted);">
+        <i class="fas fa-lock" style="color:var(--success);"></i> Secure Checkout
+      </div>
+      <div class="nav-actions">
+        <a href="cart.html" class="nav-action-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="nav-badge cart-badge" style="display:none;">0</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section style="padding:100px 0 60px;">
+  <div class="container-sm">
+    <!-- Steps -->
+    <div style="display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:40px;">
+      <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--blue);">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;">1</div>
+        Shipping
+      </div>
+      <div style="flex:1; max-width:60px; height:2px; background:var(--border); margin:0 12px;"></div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--text-muted);" id="step-payment">
+        <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;" id="step2-icon">2</div>
+        Payment
+      </div>
+      <div style="flex:1; max-width:60px; height:2px; background:var(--border); margin:0 12px;"></div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--text-muted);" id="step-confirm">
+        <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;" id="step3-icon">3</div>
+        Confirm
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 340px; gap:28px; align-items:start;">
+
+      <!-- STEP 1: Shipping -->
+      <div id="step1">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-truck"></i> Shipping Information</div>
+          <form id="shipping-form" style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label class="form-label">First Name *</label>
+                <input type="text" class="form-input" placeholder="Ahmed" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Last Name *</label>
+                <input type="text" class="form-input" placeholder="Hassan" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address *</label>
+              <input type="email" class="form-input" placeholder="ahmed@example.com" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" class="form-input" placeholder="+964 770 000 0000" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Country *</label>
+              <select class="form-input" required>
+                <option value="">Select Country</option>
+                <option>Iraq</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>United Arab Emirates</option>
+                <option>Saudi Arabia</option>
+                <option>Jordan</option>
+                <option>Egypt</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Address (for physical products)</label>
+              <input type="text" class="form-input" placeholder="Street address, apartment..." />
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+              <div class="form-group">
+                <label class="form-label">City</label>
+                <input type="text" class="form-input" placeholder="Baghdad" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">ZIP / Postal Code</label>
+                <input type="text" class="form-input" placeholder="10001" />
+              </div>
+            </div>
+            <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.2); border-radius:var(--radius-sm); padding:14px; font-size:13px; color:#93C5FD; display:flex; align-items:center; gap:10px;">
+              <i class="fas fa-bolt"></i>
+              Digital products are delivered instantly to your email after payment.
+            </div>
+            <button type="button" class="btn btn-primary btn-lg" onclick="goToPayment()">
+              Continue to Payment <i class="fas fa-arrow-right"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- STEP 2: Payment (hidden initially) -->
+      <div id="step2" style="display:none;">
+        <div class="dash-card">
+          <div class="dash-card-title"><i class="fas fa-credit-card"></i> Payment Method</div>
+          <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+            <label style="display:flex; align-items:center; gap:12px; padding:14px; background:rgba(59,130,246,0.1); border:2px solid var(--blue); border-radius:var(--radius-sm); cursor:pointer;">
+              <input type="radio" name="payment" value="card" checked style="accent-color:var(--blue);" />
+              <i class="fas fa-credit-card" style="color:var(--blue);"></i>
+              <span style="font-weight:600;">Credit / Debit Card</span>
+              <div style="margin-left:auto; display:flex; gap:4px;">
+                <span style="font-size:11px; padding:2px 6px; background:rgba(255,255,255,0.1); border-radius:4px;">VISA</span>
+                <span style="font-size:11px; padding:2px 6px; background:rgba(255,255,255,0.1); border-radius:4px;">MC</span>
+              </div>
+            </label>
+            <label style="display:flex; align-items:center; gap:12px; padding:14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer;">
+              <input type="radio" name="payment" value="paypal" style="accent-color:var(--blue);" />
+              <i class="fab fa-paypal" style="color:#009cde;"></i>
+              <span style="font-weight:600;">PayPal</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:12px; padding:14px; background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer;" id="cash-label">
+              <input type="radio" name="payment" value="cash" style="accent-color:#10B981;" onchange="toggleCardForm()" />
+              <i class="fas fa-money-bill-wave" style="color:#10B981;"></i>
+              <span style="font-weight:600;">Cash on Arrival</span>
+              <span style="margin-left:auto; font-size:11px; padding:2px 8px; background:rgba(16,185,129,0.15); color:#10B981; border:1px solid rgba(16,185,129,0.3); border-radius:20px;">No card needed</span>
+            </label>
+          </div>
+
+          <form id="payment-form" style="display:flex; flex-direction:column; gap:16px;">
+            <div id="card-fields">
+              <div class="form-group">
+                <label class="form-label">Card Number *</label>
+                <div class="input-icon-wrap">
+                  <i class="fas fa-credit-card"></i>
+                  <input type="text" class="form-input" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()" />
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:16px;">
+                <label class="form-label">Cardholder Name *</label>
+                <input type="text" class="form-input" id="card-name" placeholder="AHMED HASSAN" />
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+                <div class="form-group">
+                  <label class="form-label">Expiry Date *</label>
+                  <input type="text" class="form-input" placeholder="MM / YY" maxlength="7"
+                    oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/^(.{2})(.+)$/,'$1 / $2')" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV *</label>
+                  <input type="password" class="form-input" placeholder="•••" maxlength="4" />
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); margin-top:12px;">
+                <i class="fas fa-lock" style="color:var(--success);"></i> Your payment is encrypted and secure
+              </div>
+            </div>
+            <div id="cash-info" style="display:none; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:var(--radius-sm); padding:16px;">
+              <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                <i class="fas fa-money-bill-wave" style="color:#10B981; font-size:20px;"></i>
+                <span style="font-weight:600; color:#10B981;">Cash on Arrival</span>
+              </div>
+              <p style="font-size:13px; color:var(--text-muted); margin:0;">Pay with cash when your order arrives. Please have the exact amount ready. Our delivery agent will confirm your order before accepting payment.</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button type="button" class="btn btn-ghost" onclick="backToShipping()"><i class="fas fa-arrow-left"></i> Back</button>
+              <button type="button" class="btn btn-primary btn-lg" style="flex:1;" onclick="placeOrder()">
+                <i class="fas fa-lock"></i> Place Order
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- STEP 3: Confirmation (hidden) -->
+      <div id="step3" style="display:none;">
+        <div class="dash-card" style="text-align:center; padding:48px 32px;">
+          <div style="width:80px;height:80px;border-radius:50%;background:rgba(16,185,129,0.15);border:2px solid var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:36px;">✅</div>
+          <h2 style="font-family:var(--font-gaming); font-size:28px; margin-bottom:12px;">Order Confirmed!</h2>
+          <p style="color:var(--text-muted); margin-bottom:8px;">Your order has been placed successfully.</p>
+          <p style="color:var(--text-muted); margin-bottom:24px; font-size:14px;">Order #GGZ-<span id="order-id"></span> · Digital codes will be delivered to your email within minutes.</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <a href="../index.html" class="btn btn-primary">Continue Shopping</a>
+            <a href="dashboard.html" class="btn btn-outline">View Orders</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Sidebar -->
+      <div class="order-summary" id="order-sidebar">
+        <div class="summary-title">Order Summary</div>
+        <div id="checkout-items" style="margin-bottom:16px;"></div>
+        <div class="summary-row"><span>Subtotal</span><span id="co-subtotal">$0.00</span></div>
+        <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+        <div class="summary-row total"><span>Total</span><span id="co-total">$0.00</span></div>
+        <div style="margin-top:16px; display:flex; align-items:center; justify-content:center; gap:6px; font-size:12px; color:var(--text-muted);">
+          <i class="fas fa-shield-alt" style="color:var(--success);"></i> Protected by SSL
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../js/main.js"></script>
+<script src="../js/cart.js"></script>
+<script src="../js/auth.js"></script>
+<script>
+function renderCheckoutItems() {
+  const items = Cart.getAll();
+  const cont  = document.getElementById('checkout-items');
+  const sub   = Cart.getTotal();
+  cont.innerHTML = items.map(i => `
+    <div style="display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px;">
+      <img src="${i.image || 'https://placehold.co/50x40/1e293b/94a3b8?text=GG'}" style="width:50px;height:40px;border-radius:6px;object-fit:cover;" />
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${i.title}</div>
+        <div style="color:var(--text-muted);">Qty: ${i.qty}</div>
+      </div>
+      <div style="font-weight:600;">$${((i.salePrice||i.price)*i.qty).toFixed(2)}</div>
+    </div>`).join('');
+  document.getElementById('co-subtotal').textContent = `$${sub.toFixed(2)}`;
+  document.getElementById('co-total').textContent    = `$${sub.toFixed(2)}`;
+}
+
+// Highlight selected payment label and show/hide card fields
+document.querySelectorAll('input[name="payment"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    document.querySelectorAll('input[name="payment"]').forEach(r => {
+      const lbl = r.closest('label');
+      lbl.style.background = 'var(--bg-card)';
+      lbl.style.border = '1px solid var(--border)';
+    });
+    const active = radio.closest('label');
+    active.style.background = radio.value === 'cash' ? 'rgba(16,185,129,0.1)' : 'rgba(59,130,246,0.1)';
+    active.style.border      = radio.value === 'cash' ? '2px solid #10B981' : '2px solid var(--blue)';
+    toggleCardForm();
+  });
+});
+
+function toggleCardForm() {
+  const isCash = document.querySelector('input[name="payment"]:checked')?.value === 'cash';
+  document.getElementById('card-fields').style.display = isCash ? 'none' : '';
+  document.getElementById('cash-info').style.display   = isCash ? '' : 'none';
+}
+
+function goToPayment() {
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = '';
+  document.getElementById('step2-icon').style.background = 'var(--blue)';
+  document.getElementById('step2-icon').style.color = 'white';
+  document.getElementById('step-payment').style.color = 'var(--blue)';
+}
+function backToShipping() {
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step1').style.display = '';
+}
+async function placeOrder() {
+  const btn = document.querySelector('#step2 .btn-primary');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+  const items   = Cart.getAll();
+  const discount = parseFloat(sessionStorage.getItem('gg_coupon_discount') || 0);
+  const coupon   = document.getElementById('coupon-input')?.value?.trim() || '';
+
+  // Collect shipping info
+  const fields   = document.querySelectorAll('#shipping-form input, #shipping-form select');
+  const fname    = fields[0]?.value?.trim() || '';
+  const lname    = fields[1]?.value?.trim() || '';
+  const formEmail = fields[2]?.value?.trim() || '';
+  // Always use the logged-in user's email so orders appear in their dashboard
+  const authEmail = Auth.getUser()?.email || '';
+  const email     = authEmail || formEmail;
+  const payment   = document.querySelector('input[name="payment"]:checked')?.value || 'card';
+
+  if (!email) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-lock"></i> Place Order';
+    showToast('Please enter your email address in the shipping form.', 'error');
+    return;
+  }
+  if (!items.length) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-lock"></i> Place Order';
+    showToast('Your cart is empty.', 'error');
+    return;
+  }
+
+  const port    = parseInt(location.port, 10);
+  const apiBase = (port === 5500 || port === 5501 || port === 3000)
+    ? 'http://localhost/GG%20Project/admin/api'
+    : '../admin/api';
+
+  let orderNumber = '';
+  try {
+    const res  = await fetch(apiBase + '/orders.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        customer_name:  (fname + ' ' + lname).trim() || Auth.getUser()?.name || 'Guest',
+        customer_email: email,
+        items: items.map(i => ({ id: i.id, title: i.title, price: i.salePrice || i.price, qty: i.qty })),
+        discount,
+        coupon_code:    coupon,
+        payment_method: payment,
+      }),
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Order failed');
+    orderNumber = data.order_number;
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-lock"></i> Place Order';
+    showToast('Could not place order: ' + err.message, 'error');
+    return;
+  }
+
+  document.getElementById('order-id').textContent = orderNumber;
+  document.getElementById('step2').style.display = 'none';
+  document.getElementById('step3').style.display = '';
+  document.getElementById('order-sidebar').style.display = 'none';
+  document.getElementById('step3-icon').style.background = 'var(--success)';
+  document.getElementById('step3-icon').style.color = 'white';
+  document.getElementById('step-confirm').style.color = 'var(--success)';
+  Cart.clear();
+  showToast('Order placed successfully!', 'success');
+}
+// Pre-fill email from logged-in user
+const _authUser = Auth.getUser();
+if (_authUser) {
+  const emailField = document.querySelector('#shipping-form input[type="email"]');
+  if (emailField && !emailField.value) emailField.value = _authUser.email;
+  const nameFields = document.querySelectorAll('#shipping-form input[type="text"]');
+  if (nameFields[0] && !nameFields[0].value) {
+    const parts = (_authUser.name || '').split(' ');
+    nameFields[0].value = parts[0] || '';
+    if (nameFields[1] && !nameFields[1].value) nameFields[1].value = parts.slice(1).join(' ') || '';
+  }
+}
+
+renderCheckoutItems();
+</script>
+</body>
+</html>

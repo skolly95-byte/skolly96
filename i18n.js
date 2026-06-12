@@ -1,0 +1,495 @@
+/* ============================================================
+   GGZone - Internationalization (EN / AR)
+   ============================================================ */
+
+const I18n = (() => {
+  const T = {
+    en: {
+      /* ── NAV ──────────────────────────────── */
+      'nav.home': 'Home',
+      'nav.shop': 'Shop',
+      'nav.giftCards': 'Gift Cards',
+      'nav.subscriptions': 'Subscriptions',
+      'nav.whyUs': 'Why Us',
+      'nav.signIn': 'Sign In',
+      'nav.dashboard': 'Dashboard',
+      'nav.cart': 'Cart',
+      'nav.consoles': 'Consoles',
+      'nav.accessories': 'Accessories',
+      'nav.searchPh': 'Search products...',
+      'locale.language': 'Language',
+      'locale.currency': 'Currency',
+
+      /* ── HERO ─────────────────────────────── */
+      'hero.badge': 'Instant Digital Delivery',
+      'hero.title': 'Everything Gaming.<br><span class="gradient-text">One Zone.</span>',
+      'hero.subtitle': 'Buy Consoles, Gift Cards, Gaming Subscriptions and Digital Products Instantly. Secure payments, instant delivery, 24/7 support.',
+      'hero.shopNow': 'Shop Now',
+      'hero.exploreCategories': 'Explore Categories',
+      'hero.statGamers': 'Happy Gamers',
+      'hero.statProducts': 'Products',
+      'hero.statOrders': 'Orders Delivered',
+      'hero.cardInstantTitle': 'Instant Delivery',
+      'hero.cardInstantSub': 'Get your code in seconds',
+      'hero.cardSecureTitle': 'Secure & Trusted',
+      'hero.cardSecureSub': 'SSL encrypted payments',
+      'hero.cardProductsTitle': '500+ Products',
+      'hero.cardProductsSub': 'All platforms covered',
+
+      /* ── CATEGORIES ───────────────────────── */
+      'label.browse': 'Browse',
+      'heading.shopByCategory': 'Shop by <span class="gradient-text">Category</span>',
+      'sub.categoriesDesc': 'Find everything you need across all major gaming platforms and product types.',
+      'cat.xbox': 'Xbox',
+      'cat.playstation': 'PlayStation',
+      'cat.nintendo': 'Nintendo',
+      'cat.psp': 'PSP',
+      'cat.steam': 'Steam',
+      'cat.giftCards': 'Gift Cards',
+      'cat.subscriptions': 'Subscriptions',
+      'cat.accessories': 'Accessories',
+      'cat.consoles': 'Consoles',
+      'cat.controllers': 'Controllers',
+      'cat.headsets': 'Headsets',
+      'cat.coversSkins': 'Covers & Skins',
+      'cat.inGameCurrency': 'In-Game Currency',
+      'cat.rgbDecor': 'RGB & Room Decor',
+      'cat.pc': 'PC Gaming',
+      'cat.products': '{n} products',
+      'cat.productsLabel': 'Products',
+
+      /* ── BEST SELLERS ─────────────────────── */
+      'label.hotNow': 'Hot Right Now',
+      'heading.bestSellers': 'Best <span class="gradient-text">Sellers</span>',
+      'btn.viewAll': 'View All',
+      'btn.addToCart': 'Add to Cart',
+      'btn.addedToCart': 'Added!',
+      'btn.getNow': 'Get Now',
+      'btn.browseSteam': 'Browse Steam',
+      'btn.shopNow': 'Shop Now',
+      'btn.subscribe': 'Subscribe',
+      'btn.buyNow': 'Buy Now',
+
+      /* ── SUBSCRIPTIONS ────────────────────── */
+      'label.monthlyPlans': 'Monthly Plans',
+      'heading.subscriptions': 'Gaming <span class="gradient-text">Subscriptions</span>',
+      'sub.subsDesc': 'Access hundreds of games for a low monthly price. All major platforms.',
+      'sub.1month': '1 Month',
+      'sub.3months': '3 Months',
+      'sub.12months': '12 Months',
+      'sub.flexible': 'Flexible Amounts',
+      'period.month': '/ month',
+      'period.3months': '/ 3 months',
+      'period.year': '/ year',
+      'period.flexible': 'flexible',
+      'f.hundredGames': '100+ Game Library',
+      'f.xboxPC': 'Xbox & PC Games',
+      'f.eaPlay': 'EA Play Included',
+      'f.xboxLive': 'Xbox Live Gold',
+      'f.sevenHundredGames': '700+ Game Catalog',
+      'f.cloudStream': 'Cloud Streaming',
+      'f.psClassics': 'PS1/PS2/PS3 Classics',
+      'f.online': 'Online Multiplayer',
+      'f.nesSnes': 'NES, SNES, N64 Games',
+      'f.gameBoy': 'Game Boy Catalog',
+      'f.animalCross': 'Animal Crossing DLC',
+      'f.amounts': '$10 / $20 / $50 / $100',
+      'f.fiftyK': '50,000+ Games',
+      'f.codeDelivery': 'Instant Code Delivery',
+      'f.worldwide': 'Worldwide Compatible',
+
+      /* ── WHY US ───────────────────────────── */
+      'label.whyGGZone': 'Why GGZone',
+      'heading.whyTitle': 'Your Gaming Store, <span class="gradient-text">Perfected</span>',
+      'fi.delTitle': 'Instant Delivery',
+      'fi.delDesc': 'Get your digital codes and keys delivered instantly to your email after payment.',
+      'fi.payTitle': 'Secure Payments',
+      'fi.payDesc': 'SSL encrypted checkout with Stripe & PayPal. Your payment info is always safe.',
+      'fi.trustTitle': 'Trusted Store',
+      'fi.trustDesc': 'Over 15,000 happy customers. Verified products from official sources only.',
+      'fi.suppTitle': '24/7 Support',
+      'fi.suppDesc': 'Our gaming experts are available around the clock to help with any issue.',
+      'fi.priceTitle': 'Best Prices',
+      'fi.priceDesc': 'We price-match competitors. Get the best deals on all gaming products.',
+      'fi.checkTitle': 'Fast Checkout',
+      'fi.checkDesc': 'One-click checkout for returning customers. No unnecessary steps or delays.',
+
+      /* ── TESTIMONIALS ─────────────────────── */
+      'label.reviews': 'Reviews',
+      'heading.gamers': 'What Gamers <span class="gradient-text">Say</span>',
+      't.ahmed': '"Got my PS Plus code in seconds. The website is super clean and checkout was a breeze. Definitely my go-to gaming store from now on!"',
+      't.sara': '"Best prices I\'ve found for Xbox Game Pass. The discount codes actually work and the support team responded within minutes. 10/10!"',
+      't.omar': '"Ordered a Nintendo Switch OLED. Shipped fast, arrived in perfect condition. The whole experience from browsing to delivery was excellent."',
+      't.lina': '"The website design is gorgeous — so easy to navigate. Found my Valorant points in seconds and redeemed them without any issues. Love GGZone!"',
+      't.ziad': '"Used the GGZONE10 coupon and saved money on my Fortnite V-Bucks. Instant delivery and the store feels premium. Will be back for sure!"',
+
+      /* ── NEWSLETTER ───────────────────────── */
+      'label.stayUpdated': 'Stay Updated',
+      'heading.exclusiveDeals': 'Get <span class="gradient-text">Exclusive Deals</span> First',
+      'sub.subscribeDesc': 'Subscribe and be the first to know about flash sales, new arrivals, and promo codes.',
+      'newsletter.ph': 'Enter your email address...',
+
+      /* ── FOOTER ───────────────────────────── */
+      'footer.desc': 'Everything Gaming. One Zone. Your trusted destination for consoles, digital codes, subscriptions, and gaming accessories.',
+      'footer.catTitle': 'Categories',
+      'footer.supportTitle': 'Support',
+      'footer.contactTitle': 'Contact',
+      'footer.helpCenter': 'Help Center',
+      'footer.contactUs': 'Contact Us',
+      'footer.trackOrder': 'Track Order',
+      'footer.refund': 'Refund Policy',
+      'footer.privacy': 'Privacy Policy',
+      'footer.terms': 'Terms of Service',
+      'footer.weAccept': 'We Accept',
+      'footer.copyright': '© 2025 GGZone. All rights reserved.',
+      'footer.designedBy': 'Designed & Developed by',
+
+      /* ── SHOP PAGE ────────────────────────── */
+      'shop.allProducts': 'All Products',
+      'shop.heading': 'All <span class="gradient-text">Products</span>',
+      'shop.desc': 'Browse our complete gaming product catalog',
+      'shop.searchPh': 'Search products...',
+      'shop.showing': 'Showing {n} products',
+      'shop.noProducts': 'No products found',
+      'shop.adjustFilters': 'Try adjusting your filters',
+      'sidebar.catTitle': 'Categories',
+      'sidebar.priceTitle': 'Price Range',
+      'sidebar.platformTitle': 'Platform',
+      'sidebar.typeTitle': 'Product Type',
+      'sidebar.ratingTitle': 'Rating',
+      'sidebar.allProducts': 'All Products',
+      'sidebar.applyFilter': 'Apply Filter',
+      'sidebar.clearFilters': 'Clear All Filters',
+      'sidebar.minLabel': 'Min ($)',
+      'sidebar.maxLabel': 'Max ($)',
+      'sidebar.physicalConsole': 'Physical Console',
+      'sidebar.digitalCode': 'Digital Code',
+      'sidebar.giftCard': 'Gift Card',
+      'sidebar.subscription': 'Subscription',
+      'sidebar.accessory': 'Accessory',
+      'sort.newest': 'Newest First',
+      'sort.best': 'Best Selling',
+      'sort.priceLow': 'Price: Low to High',
+      'sort.priceHigh': 'Price: High to Low',
+      'sort.rated': 'Top Rated',
+      'sort.az': 'Name: A to Z',
+      'sort.za': 'Name: Z to A',
+
+      /* ── CART PAGE ────────────────────────── */
+      'cart.title': 'Your <span class="gradient-text">Cart</span>',
+      'cart.subtitle': 'Review your items before checkout',
+      'cart.continueShopping': 'Continue Shopping',
+      'cart.clearCart': 'Clear Cart',
+      'cart.orderSummary': 'Order Summary',
+      'cart.couponPh': 'Coupon code (e.g. GGZONE10)',
+      'cart.apply': 'Apply',
+      'cart.subtotal': 'Subtotal',
+      'cart.discount': 'Discount',
+      'cart.shipping': 'Shipping',
+      'cart.free': 'Free',
+      'cart.total': 'Total',
+      'cart.checkout': 'Proceed to Checkout',
+      'cart.ssl': 'SSL Encrypted & Secure',
+      'cart.empty': 'Your cart is empty',
+      'cart.browseStore': 'Browse our store and add some amazing products!',
+      'cart.digitalProduct': 'Digital Product',
+
+      /* ── PRODUCT PAGE ─────────────────────── */
+      'product.quantity': 'Quantity:',
+      'product.inStock': 'In Stock',
+      'product.addToCart': 'Add to Cart',
+      'product.buyNow': 'Buy Now',
+      'product.stockLeft': '5 left in stock',
+      'product.securePayment': 'Secure Payment',
+      'product.returns': '30-Day Returns',
+      'product.freeShipping': 'Free Shipping $50+',
+      'product.officialProduct': 'Official Product',
+      'product.customerReviews': 'Customer Reviews',
+      'product.relatedProducts': 'Related Products',
+      'product.writeReview': 'Write a Review',
+      'product.submitReview': 'Submit Review',
+      'product.yourRating': 'Your Rating',
+      'product.yourName': 'Your Name',
+      'product.reviewTitle': 'Review Title',
+      'product.yourReview': 'Your Review',
+      'product.namePh': 'Enter your name',
+      'product.reviewTitlePh': 'Summary of your experience',
+      'product.reviewBodyPh': 'Tell others about your experience...',
+
+      /* ── TOAST MESSAGES ───────────────────── */
+      'toast.addedToCart': '"{title}" added to cart!',
+      'toast.outOfStock': '"{title}" is out of stock!',
+      'toast.onlyLeft': 'Only {n} left in stock!',
+      'toast.removed': 'Item removed from cart',
+      'toast.onlyAvail': 'Only {n} available!',
+      'toast.couponApplied': 'Coupon applied! ${n} discount',
+      'toast.invalidCoupon': 'Invalid coupon code',
+      'toast.enterCoupon': 'Enter a coupon code',
+      'toast.addedWishlist': 'Added to wishlist!',
+      'toast.wishlistUpdated': 'Wishlist updated',
+      'toast.cartCleared': 'Cart cleared',
+    },
+
+    ar: {
+      /* ── NAV ──────────────────────────────── */
+      'nav.home': 'الرئيسية',
+      'nav.shop': 'المتجر',
+      'nav.giftCards': 'بطاقات الهدايا',
+      'nav.subscriptions': 'الاشتراكات',
+      'nav.whyUs': 'لماذا نحن',
+      'nav.signIn': 'تسجيل الدخول',
+      'nav.dashboard': 'لوحة التحكم',
+      'nav.cart': 'السلة',
+      'nav.consoles': 'الكونسولات',
+      'nav.accessories': 'الإكسسوارات',
+      'nav.searchPh': 'البحث عن منتجات...',
+      'locale.language': 'اللغة',
+      'locale.currency': 'العملة',
+
+      /* ── HERO ─────────────────────────────── */
+      'hero.badge': 'توصيل رقمي فوري',
+      'hero.title': 'كل شيء عن الألعاب.<br><span class="gradient-text">منطقة واحدة.</span>',
+      'hero.subtitle': 'اشترِ الكونسولات وبطاقات الهدايا واشتراكات الألعاب والمنتجات الرقمية فورياً. مدفوعات آمنة، توصيل فوري، دعم 24/7.',
+      'hero.shopNow': 'تسوق الآن',
+      'hero.exploreCategories': 'استكشف الفئات',
+      'hero.statGamers': 'لاعب سعيد',
+      'hero.statProducts': 'منتج',
+      'hero.statOrders': 'طلب تم توصيله',
+      'hero.cardInstantTitle': 'توصيل فوري',
+      'hero.cardInstantSub': 'احصل على كودك في ثوانٍ',
+      'hero.cardSecureTitle': 'آمن وموثوق',
+      'hero.cardSecureSub': 'مدفوعات مشفرة بـ SSL',
+      'hero.cardProductsTitle': '500+ منتج',
+      'hero.cardProductsSub': 'يشمل جميع المنصات',
+
+      /* ── CATEGORIES ───────────────────────── */
+      'label.browse': 'تصفح',
+      'heading.shopByCategory': 'تسوق حسب <span class="gradient-text">الفئة</span>',
+      'sub.categoriesDesc': 'اعثر على كل ما تحتاجه عبر جميع منصات الألعاب الرئيسية وأنواع المنتجات.',
+      'cat.xbox': 'إكس بوكس',
+      'cat.playstation': 'بلايستيشن',
+      'cat.nintendo': 'نينتندو',
+      'cat.psp': 'PSP',
+      'cat.steam': 'ستيم',
+      'cat.giftCards': 'بطاقات الهدايا',
+      'cat.subscriptions': 'الاشتراكات',
+      'cat.accessories': 'الإكسسوارات',
+      'cat.consoles': 'الكونسولات',
+      'cat.controllers': 'أجهزة التحكم',
+      'cat.headsets': 'سماعات الألعاب',
+      'cat.coversSkins': 'أغطية وجرابات',
+      'cat.inGameCurrency': 'عملات داخل اللعبة',
+      'cat.rgbDecor': 'إضاءة وديكور',
+      'cat.pc': 'ألعاب الكمبيوتر',
+      'cat.products': '{n} منتجاً',
+      'cat.productsLabel': 'منتجات',
+
+      /* ── BEST SELLERS ─────────────────────── */
+      'label.hotNow': 'رائج الآن',
+      'heading.bestSellers': 'الأكثر <span class="gradient-text">مبيعاً</span>',
+      'btn.viewAll': 'عرض الكل',
+      'btn.addToCart': 'أضف للسلة',
+      'btn.addedToCart': 'تمت الإضافة!',
+      'btn.getNow': 'احصل عليه الآن',
+      'btn.browseSteam': 'تصفح ستيم',
+      'btn.shopNow': 'تسوق الآن',
+      'btn.subscribe': 'اشترك',
+      'btn.buyNow': 'اشترِ الآن',
+
+      /* ── SUBSCRIPTIONS ────────────────────── */
+      'label.monthlyPlans': 'الخطط الشهرية',
+      'heading.subscriptions': 'اشتراكات <span class="gradient-text">الألعاب</span>',
+      'sub.subsDesc': 'الوصول لمئات الألعاب بسعر شهري منخفض. جميع المنصات الرئيسية.',
+      'sub.1month': 'شهر واحد',
+      'sub.3months': '3 أشهر',
+      'sub.12months': '12 شهراً',
+      'sub.flexible': 'مبالغ مرنة',
+      'period.month': '/ شهر',
+      'period.3months': '/ 3 أشهر',
+      'period.year': '/ سنة',
+      'period.flexible': 'مرن',
+      'f.hundredGames': 'مكتبة 100+ لعبة',
+      'f.xboxPC': 'ألعاب Xbox و PC',
+      'f.eaPlay': 'يتضمن EA Play',
+      'f.xboxLive': 'Xbox Live Gold',
+      'f.sevenHundredGames': 'كتالوج 700+ لعبة',
+      'f.cloudStream': 'بث سحابي',
+      'f.psClassics': 'كلاسيكيات PS1/PS2/PS3',
+      'f.online': 'لعب جماعي أونلاين',
+      'f.nesSnes': 'ألعاب NES وSNES وN64',
+      'f.gameBoy': 'كتالوج Game Boy',
+      'f.animalCross': 'Animal Crossing DLC',
+      'f.amounts': '$10 / $20 / $50 / $100',
+      'f.fiftyK': '50,000+ لعبة',
+      'f.codeDelivery': 'تسليم كود فوري',
+      'f.worldwide': 'متوافق عالمياً',
+
+      /* ── WHY US ───────────────────────────── */
+      'label.whyGGZone': 'لماذا GGZone',
+      'heading.whyTitle': 'متجرك للألعاب، <span class="gradient-text">المثالي</span>',
+      'fi.delTitle': 'توصيل فوري',
+      'fi.delDesc': 'احصل على أكوادك ومفاتيحك الرقمية فوراً بعد الدفع.',
+      'fi.payTitle': 'مدفوعات آمنة',
+      'fi.payDesc': 'دفع مشفر بـ SSL مع Stripe و PayPal. معلومات دفعك آمنة دائماً.',
+      'fi.trustTitle': 'متجر موثوق',
+      'fi.trustDesc': 'أكثر من 15,000 عميل سعيد. منتجات موثقة من مصادر رسمية فقط.',
+      'fi.suppTitle': 'دعم 24/7',
+      'fi.suppDesc': 'خبراؤنا في الألعاب متاحون على مدار الساعة لمساعدتك في أي مشكلة.',
+      'fi.priceTitle': 'أفضل الأسعار',
+      'fi.priceDesc': 'نتطابق مع أسعار المنافسين. احصل على أفضل العروض على جميع منتجات الألعاب.',
+      'fi.checkTitle': 'دفع سريع',
+      'fi.checkDesc': 'دفع بنقرة واحدة للعملاء العائدين. لا خطوات غير ضرورية أو تأخيرات.',
+
+      /* ── TESTIMONIALS ─────────────────────── */
+      'label.reviews': 'التقييمات',
+      'heading.gamers': 'ماذا يقول <span class="gradient-text">اللاعبون</span>',
+      't.ahmed': '"حصلت على كود PS Plus في ثوانٍ. الموقع نظيف جداً وعملية الشراء كانت سلسة. أصبح متجري المفضل للألعاب من الآن فصاعداً!"',
+      't.sara': '"أفضل الأسعار التي وجدتها لـ Xbox Game Pass. أكواد الخصم تعمل فعلاً وفريق الدعم رد خلال دقائق. 10/10!"',
+      't.omar': '"طلبت Nintendo Switch OLED. وصل بسرعة وفي حالة ممتازة. التجربة بأكملها من التصفح حتى التوصيل كانت رائعة."',
+      't.lina': '"تصميم الموقع رائع ولا يُقاوم. وجدت نقاط Valorant في ثوانٍ واستردادها بدون أي مشاكل. أحب GGZone!"',
+      't.ziad': '"استخدمت كوبون GGZONE10 ووفّرت على Fortnite V-Bucks. التوصيل الفوري والمتجر يبدو احترافياً. سأعود حتماً!"',
+
+      /* ── NEWSLETTER ───────────────────────── */
+      'label.stayUpdated': 'ابقَ على اطلاع',
+      'heading.exclusiveDeals': 'احصل على <span class="gradient-text">عروض حصرية</span> أولاً',
+      'sub.subscribeDesc': 'اشترك وكن أول من يعلم بالتخفيضات المفاجئة والمنتجات الجديدة وأكواد الخصم.',
+      'newsletter.ph': 'أدخل بريدك الإلكتروني...',
+
+      /* ── FOOTER ───────────────────────────── */
+      'footer.desc': 'كل شيء عن الألعاب. منطقة واحدة. وجهتك الموثوقة للكونسولات والأكواد الرقمية والاشتراكات وإكسسوارات الألعاب.',
+      'footer.catTitle': 'الفئات',
+      'footer.supportTitle': 'الدعم',
+      'footer.contactTitle': 'تواصل',
+      'footer.helpCenter': 'مركز المساعدة',
+      'footer.contactUs': 'تواصل معنا',
+      'footer.trackOrder': 'تتبع الطلب',
+      'footer.refund': 'سياسة الاسترداد',
+      'footer.privacy': 'سياسة الخصوصية',
+      'footer.terms': 'شروط الخدمة',
+      'footer.weAccept': 'نقبل',
+      'footer.copyright': '© 2025 GGZone. جميع الحقوق محفوظة.',
+      'footer.designedBy': 'تصميم وتطوير',
+
+      /* ── SHOP PAGE ────────────────────────── */
+      'shop.allProducts': 'جميع المنتجات',
+      'shop.heading': 'جميع <span class="gradient-text">المنتجات</span>',
+      'shop.desc': 'تصفح كتالوج منتجاتنا الكامل',
+      'shop.searchPh': 'البحث عن منتجات...',
+      'shop.showing': 'عرض {n} منتجاً',
+      'shop.noProducts': 'لا توجد منتجات',
+      'shop.adjustFilters': 'حاول تعديل الفلاتر',
+      'sidebar.catTitle': 'الفئات',
+      'sidebar.priceTitle': 'نطاق السعر',
+      'sidebar.platformTitle': 'المنصة',
+      'sidebar.typeTitle': 'نوع المنتج',
+      'sidebar.ratingTitle': 'التقييم',
+      'sidebar.allProducts': 'جميع المنتجات',
+      'sidebar.applyFilter': 'تطبيق الفلتر',
+      'sidebar.clearFilters': 'مسح جميع الفلاتر',
+      'sidebar.minLabel': 'الحد الأدنى ($)',
+      'sidebar.maxLabel': 'الحد الأقصى ($)',
+      'sidebar.physicalConsole': 'كونسول جسدي',
+      'sidebar.digitalCode': 'كود رقمي',
+      'sidebar.giftCard': 'بطاقة هدية',
+      'sidebar.subscription': 'اشتراك',
+      'sidebar.accessory': 'إكسسوار',
+      'sort.newest': 'الأحدث أولاً',
+      'sort.best': 'الأكثر مبيعاً',
+      'sort.priceLow': 'السعر: من الأقل للأعلى',
+      'sort.priceHigh': 'السعر: من الأعلى للأقل',
+      'sort.rated': 'الأعلى تقييماً',
+      'sort.az': 'الاسم: من أ إلى ي',
+      'sort.za': 'الاسم: من ي إلى أ',
+
+      /* ── CART PAGE ────────────────────────── */
+      'cart.title': '<span class="gradient-text">سلتك</span>',
+      'cart.subtitle': 'راجع عناصرك قبل الدفع',
+      'cart.continueShopping': 'مواصلة التسوق',
+      'cart.clearCart': 'مسح السلة',
+      'cart.orderSummary': 'ملخص الطلب',
+      'cart.couponPh': 'كود الكوبون (مثل GGZONE10)',
+      'cart.apply': 'تطبيق',
+      'cart.subtotal': 'المجموع الفرعي',
+      'cart.discount': 'الخصم',
+      'cart.shipping': 'الشحن',
+      'cart.free': 'مجاني',
+      'cart.total': 'الإجمالي',
+      'cart.checkout': 'المتابعة للدفع',
+      'cart.ssl': 'آمن ومشفر بـ SSL',
+      'cart.empty': 'سلتك فارغة',
+      'cart.browseStore': 'تصفح متجرنا وأضف بعض المنتجات الرائعة!',
+      'cart.digitalProduct': 'منتج رقمي',
+
+      /* ── PRODUCT PAGE ─────────────────────── */
+      'product.quantity': 'الكمية:',
+      'product.inStock': 'متوفر في المخزن',
+      'product.addToCart': 'أضف للسلة',
+      'product.buyNow': 'اشترِ الآن',
+      'product.stockLeft': '5 متبقٍ في المخزن',
+      'product.securePayment': 'دفع آمن',
+      'product.returns': 'إرجاع خلال 30 يوماً',
+      'product.freeShipping': 'شحن مجاني لطلبات +$50',
+      'product.officialProduct': 'منتج رسمي',
+      'product.customerReviews': 'تقييمات العملاء',
+      'product.relatedProducts': 'منتجات ذات صلة',
+      'product.writeReview': 'اكتب تقييماً',
+      'product.submitReview': 'إرسال التقييم',
+      'product.yourRating': 'تقييمك',
+      'product.yourName': 'اسمك',
+      'product.reviewTitle': 'عنوان التقييم',
+      'product.yourReview': 'تقييمك',
+      'product.namePh': 'أدخل اسمك',
+      'product.reviewTitlePh': 'ملخص تجربتك',
+      'product.reviewBodyPh': 'أخبر الآخرين عن تجربتك...',
+
+      /* ── TOAST MESSAGES ───────────────────── */
+      'toast.addedToCart': 'تمت إضافة "{title}" للسلة!',
+      'toast.outOfStock': '"{title}" غير متوفر في المخزن!',
+      'toast.onlyLeft': '{n} فقط متبقٍ في المخزن!',
+      'toast.removed': 'تم حذف العنصر من السلة',
+      'toast.onlyAvail': '{n} فقط متوفر!',
+      'toast.couponApplied': 'تم تطبيق الكوبون! خصم ${n}',
+      'toast.invalidCoupon': 'كود كوبون غير صالح',
+      'toast.enterCoupon': 'أدخل كود الكوبون',
+      'toast.addedWishlist': 'تمت الإضافة لقائمة الرغبات!',
+      'toast.wishlistUpdated': 'تم تحديث قائمة الرغبات',
+      'toast.cartCleared': 'تم مسح السلة',
+    }
+  };
+
+  function t(key) {
+    const lang = (typeof Lang !== 'undefined') ? Lang.current() : 'en';
+    return (T[lang] && T[lang][key]) !== undefined ? T[lang][key] : (T.en[key] || key);
+  }
+
+  function tf(key, vars = {}) {
+    let str = t(key);
+    Object.entries(vars).forEach(([k, v]) => {
+      str = str.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+    });
+    return str;
+  }
+
+  function apply() {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const v = t(el.dataset.i18n);
+      if (v !== undefined) el.textContent = v;
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const v = t(el.dataset.i18nHtml);
+      if (v !== undefined) el.innerHTML = v;
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const v = t(el.dataset.i18nPh);
+      if (v !== undefined) el.placeholder = v;
+    });
+    // Count badges: data-i18n-count="48" → "48 products" / "48 منتجاً"
+    document.querySelectorAll('[data-i18n-count]').forEach(el => {
+      el.textContent = tf('cat.products', { n: el.dataset.i18nCount });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', apply);
+
+  return { t, tf, apply };
+})();
